@@ -16,10 +16,6 @@
 		2A203E8120E373B600F77151 /* m68kopdm.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7720E373B600F77151 /* m68kopdm.c */; };
 		2A203E8220E373B600F77151 /* m68kops.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7920E373B600F77151 /* m68kops.c */; };
 		2A203E8420E373B600F77151 /* m68kdasm.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7C20E373B600F77151 /* m68kdasm.c */; };
-		2A203E8820E375CC00F77151 /* jagemu.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E8720E375CC00F77151 /* jagemu.c */; };
-		2A203E8B20E3766700F77151 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E8A20E3766700F77151 /* memory.c */; };
-		2ADF7C7520E41C8400F242A9 /* tom.c in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C7420E41C8400F242A9 /* tom.c */; };
-		2ADF7C7820E41C8C00F242A9 /* jerry.c in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C7720E41C8C00F242A9 /* jerry.c */; };
 		2ADF7C7F20E462EB00F242A9 /* JaguarTom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */; };
 		2ADF7C8220E465CF00F242A9 /* JaguarSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C8120E465CF00F242A9 /* JaguarSystem.m */; };
 		2ADF7C8520E4671800F242A9 /* JaguarMemory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C8420E4671800F242A9 /* JaguarMemory.m */; };
@@ -42,15 +38,7 @@
 		2A203E7920E373B600F77151 /* m68kops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kops.c; sourceTree = "<group>"; };
 		2A203E7A20E373B600F77151 /* m68k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68k.h; sourceTree = "<group>"; };
 		2A203E7C20E373B600F77151 /* m68kdasm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kdasm.c; sourceTree = "<group>"; };
-		2A203E8520E3758B00F77151 /* jagemu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jagemu.h; sourceTree = "<group>"; };
-		2A203E8720E375CC00F77151 /* jagemu.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jagemu.c; sourceTree = "<group>"; };
-		2A203E8920E3766700F77151 /* memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
-		2A203E8A20E3766700F77151 /* memory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = memory.c; sourceTree = "<group>"; };
 		2A57FF6620E46E8900E8A68E /* Jagemu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jagemu-Bridging-Header.h"; sourceTree = "<group>"; };
-		2ADF7C7320E41C8400F242A9 /* tom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tom.h; sourceTree = "<group>"; };
-		2ADF7C7420E41C8400F242A9 /* tom.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tom.c; sourceTree = "<group>"; };
-		2ADF7C7620E41C8C00F242A9 /* jerry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jerry.h; sourceTree = "<group>"; };
-		2ADF7C7720E41C8C00F242A9 /* jerry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jerry.c; sourceTree = "<group>"; };
 		2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarTom.h; sourceTree = "<group>"; };
 		2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarTom.m; sourceTree = "<group>"; };
 		2ADF7C8020E465CF00F242A9 /* JaguarSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarSystem.h; sourceTree = "<group>"; };
@@ -122,23 +110,23 @@
 		2A203E8620E375B500F77151 /* CInterface */ = {
 			isa = PBXGroup;
 			children = (
-				2A203E8520E3758B00F77151 /* jagemu.h */,
-				2A203E8720E375CC00F77151 /* jagemu.c */,
-				2A203E8920E3766700F77151 /* memory.h */,
-				2A203E8A20E3766700F77151 /* memory.c */,
-				2ADF7C7320E41C8400F242A9 /* tom.h */,
-				2ADF7C7420E41C8400F242A9 /* tom.c */,
-				2ADF7C7620E41C8C00F242A9 /* jerry.h */,
-				2ADF7C7720E41C8C00F242A9 /* jerry.c */,
 			);
 			path = CInterface;
+			sourceTree = "<group>";
+		};
+		2A57FF6720E4949B00E8A68E /* Tom */ = {
+			isa = PBXGroup;
+			children = (
+				2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */,
+				2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */,
+			);
+			path = Tom;
 			sourceTree = "<group>";
 		};
 		2ADF7C7C20E462D600F242A9 /* Jaguar */ = {
 			isa = PBXGroup;
 			children = (
-				2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */,
-				2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */,
+				2A57FF6720E4949B00E8A68E /* Tom */,
 				2ADF7C8020E465CF00F242A9 /* JaguarSystem.h */,
 				2ADF7C8120E465CF00F242A9 /* JaguarSystem.m */,
 				2ADF7C8320E4671800F242A9 /* JaguarMemory.h */,
@@ -222,15 +210,11 @@
 				2A203E7F20E373B600F77151 /* m68kcpu.c in Sources */,
 				2ADF7C7F20E462EB00F242A9 /* JaguarTom.m in Sources */,
 				2A203E8120E373B600F77151 /* m68kopdm.c in Sources */,
-				2A203E8B20E3766700F77151 /* memory.c in Sources */,
 				2A203E7D20E373B600F77151 /* m68kopac.c in Sources */,
 				2A203E8020E373B600F77151 /* m68kopnz.c in Sources */,
 				2A203E8420E373B600F77151 /* m68kdasm.c in Sources */,
 				2A203E8220E373B600F77151 /* m68kops.c in Sources */,
-				2A203E8820E375CC00F77151 /* jagemu.c in Sources */,
 				2ADF7C8220E465CF00F242A9 /* JaguarSystem.m in Sources */,
-				2ADF7C7820E41C8C00F242A9 /* jerry.c in Sources */,
-				2ADF7C7520E41C8400F242A9 /* tom.c in Sources */,
 				2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

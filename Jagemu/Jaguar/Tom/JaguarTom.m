@@ -12,4 +12,11 @@
 
 @synthesize registers = _registers;
 
+-(instancetype)init
+{
+    self = [super init];
+    
+    return self;
+}
+
 @end

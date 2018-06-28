@@ -15,14 +15,18 @@
 @interface JaguarMemory : NSObject
 {
     /* 0x200000 (2MB) of RAM at 0x000000. Shadowed at 0x200000. */
-    uint8_t *WorkRAM;
+    uint8_t *_WorkRAM;
     
     /* 0x600000 (6MB) of ROM space at 0x800000. */
-    uint8_t *CartROM;
+    uint8_t *_CartROM;
     
     /* 0x020000 (128K) of boot ROM at 0xE00000 */
-    uint8_t *BootROM;
+    uint8_t *_BootROM;
 }
+
+@property uint8_t *WorkRAM;
+@property uint8_t *CartROM;
+@property uint8_t *BootROM;
 
 - (instancetype)init;
 

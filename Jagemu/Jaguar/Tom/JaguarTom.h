@@ -6,6 +6,8 @@
 //  Copyright © 2018 Luigi Thirty. All rights reserved.
 //
 
+/* Tom contains the blitter, object processor, memory controller, and a RISC GPU. */
+
 #import <Foundation/Foundation.h>
 
 struct tom_registers_t {
@@ -60,9 +62,12 @@ struct tom_registers_t {
 };
 
 @interface JaguarTom : NSObject {
+    @public
     struct tom_registers_t *_registers;
 }
 
 @property struct tom_registers_t *registers;
+
+-(instancetype)init;
 
 @end

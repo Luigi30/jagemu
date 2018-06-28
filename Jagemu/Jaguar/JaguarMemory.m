@@ -14,9 +14,9 @@
 {
     self = [super init];
     
-    WorkRAM = calloc(WORKRAM_SIZE, 1);
-    CartROM = calloc(CARTROM_SIZE, 1);
-    BootROM = calloc(BOOTROM_SIZE, 1);
+    _WorkRAM = calloc(WORKRAM_SIZE, 1);
+    _CartROM = calloc(CARTROM_SIZE, 1);
+    _BootROM = calloc(BOOTROM_SIZE, 1);
     
     return self;
 }
@@ -26,7 +26,7 @@
     // Read the file at path and load it into BootROM.
     NSData *data = [NSData dataWithContentsOfFile: path];
     NSUInteger length = [data length];
-    memcpy(BootROM, [data bytes], length);
+    memcpy(_BootROM, [data bytes], length);
 }
 
 @end
