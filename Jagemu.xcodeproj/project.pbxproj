@@ -18,6 +18,11 @@
 		2A203E8420E373B600F77151 /* m68kdasm.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7C20E373B600F77151 /* m68kdasm.c */; };
 		2A203E8820E375CC00F77151 /* jagemu.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E8720E375CC00F77151 /* jagemu.c */; };
 		2A203E8B20E3766700F77151 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E8A20E3766700F77151 /* memory.c */; };
+		2ADF7C7520E41C8400F242A9 /* tom.c in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C7420E41C8400F242A9 /* tom.c */; };
+		2ADF7C7820E41C8C00F242A9 /* jerry.c in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C7720E41C8C00F242A9 /* jerry.c */; };
+		2ADF7C7F20E462EB00F242A9 /* JaguarTom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */; };
+		2ADF7C8220E465CF00F242A9 /* JaguarSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C8120E465CF00F242A9 /* JaguarSystem.m */; };
+		2ADF7C8520E4671800F242A9 /* JaguarMemory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C8420E4671800F242A9 /* JaguarMemory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +32,6 @@
 		2A203E5B20E36EE400F77151 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2A203E5D20E36EE400F77151 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A203E5E20E36EE400F77151 /* Jagemu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jagemu.entitlements; sourceTree = "<group>"; };
-		2A203E6520E36FF200F77151 /* Jagemu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jagemu-Bridging-Header.h"; sourceTree = "<group>"; };
 		2A203E7120E373B500F77151 /* m68kopac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kopac.c; sourceTree = "<group>"; };
 		2A203E7220E373B500F77151 /* m68kconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kconf.h; sourceTree = "<group>"; };
 		2A203E7320E373B600F77151 /* m68kcpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kcpu.h; sourceTree = "<group>"; };
@@ -42,6 +46,17 @@
 		2A203E8720E375CC00F77151 /* jagemu.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jagemu.c; sourceTree = "<group>"; };
 		2A203E8920E3766700F77151 /* memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
 		2A203E8A20E3766700F77151 /* memory.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = memory.c; sourceTree = "<group>"; };
+		2A57FF6620E46E8900E8A68E /* Jagemu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jagemu-Bridging-Header.h"; sourceTree = "<group>"; };
+		2ADF7C7320E41C8400F242A9 /* tom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tom.h; sourceTree = "<group>"; };
+		2ADF7C7420E41C8400F242A9 /* tom.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tom.c; sourceTree = "<group>"; };
+		2ADF7C7620E41C8C00F242A9 /* jerry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jerry.h; sourceTree = "<group>"; };
+		2ADF7C7720E41C8C00F242A9 /* jerry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jerry.c; sourceTree = "<group>"; };
+		2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarTom.h; sourceTree = "<group>"; };
+		2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarTom.m; sourceTree = "<group>"; };
+		2ADF7C8020E465CF00F242A9 /* JaguarSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarSystem.h; sourceTree = "<group>"; };
+		2ADF7C8120E465CF00F242A9 /* JaguarSystem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarSystem.m; sourceTree = "<group>"; };
+		2ADF7C8320E4671800F242A9 /* JaguarMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarMemory.h; sourceTree = "<group>"; };
+		2ADF7C8420E4671800F242A9 /* JaguarMemory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarMemory.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +89,8 @@
 		2A203E5520E36EE200F77151 /* Jagemu */ = {
 			isa = PBXGroup;
 			children = (
+				2A57FF6620E46E8900E8A68E /* Jagemu-Bridging-Header.h */,
+				2ADF7C7C20E462D600F242A9 /* Jaguar */,
 				2A203E8620E375B500F77151 /* CInterface */,
 				2A203E6420E36EFA00F77151 /* Musashi */,
 				2A203E5620E36EE200F77151 /* AppDelegate.swift */,
@@ -98,7 +115,6 @@
 				2A203E7620E373B600F77151 /* m68kopnz.c */,
 				2A203E7920E373B600F77151 /* m68kops.c */,
 				2A203E7820E373B600F77151 /* m68kops.h */,
-				2A203E6520E36FF200F77151 /* Jagemu-Bridging-Header.h */,
 			);
 			path = Musashi;
 			sourceTree = "<group>";
@@ -110,8 +126,25 @@
 				2A203E8720E375CC00F77151 /* jagemu.c */,
 				2A203E8920E3766700F77151 /* memory.h */,
 				2A203E8A20E3766700F77151 /* memory.c */,
+				2ADF7C7320E41C8400F242A9 /* tom.h */,
+				2ADF7C7420E41C8400F242A9 /* tom.c */,
+				2ADF7C7620E41C8C00F242A9 /* jerry.h */,
+				2ADF7C7720E41C8C00F242A9 /* jerry.c */,
 			);
 			path = CInterface;
+			sourceTree = "<group>";
+		};
+		2ADF7C7C20E462D600F242A9 /* Jaguar */ = {
+			isa = PBXGroup;
+			children = (
+				2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */,
+				2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */,
+				2ADF7C8020E465CF00F242A9 /* JaguarSystem.h */,
+				2ADF7C8120E465CF00F242A9 /* JaguarSystem.m */,
+				2ADF7C8320E4671800F242A9 /* JaguarMemory.h */,
+				2ADF7C8420E4671800F242A9 /* JaguarMemory.m */,
+			);
+			path = Jaguar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,7 +218,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ADF7C8520E4671800F242A9 /* JaguarMemory.m in Sources */,
 				2A203E7F20E373B600F77151 /* m68kcpu.c in Sources */,
+				2ADF7C7F20E462EB00F242A9 /* JaguarTom.m in Sources */,
 				2A203E8120E373B600F77151 /* m68kopdm.c in Sources */,
 				2A203E8B20E3766700F77151 /* memory.c in Sources */,
 				2A203E7D20E373B600F77151 /* m68kopac.c in Sources */,
@@ -193,6 +228,9 @@
 				2A203E8420E373B600F77151 /* m68kdasm.c in Sources */,
 				2A203E8220E373B600F77151 /* m68kops.c in Sources */,
 				2A203E8820E375CC00F77151 /* jagemu.c in Sources */,
+				2ADF7C8220E465CF00F242A9 /* JaguarSystem.m in Sources */,
+				2ADF7C7820E41C8C00F242A9 /* jerry.c in Sources */,
+				2ADF7C7520E41C8400F242A9 /* tom.c in Sources */,
 				2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,6 +366,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Jagemu/Jagemu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -339,7 +378,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.luigithirty.Jagemu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Jagemu/Musashi/Jagemu-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Jagemu/Jagemu-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
@@ -349,6 +388,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Jagemu/Jagemu.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -360,7 +400,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.luigithirty.Jagemu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Jagemu/Musashi/Jagemu-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Jagemu/Jagemu-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
