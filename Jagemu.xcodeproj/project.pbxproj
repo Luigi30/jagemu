@@ -19,6 +19,8 @@
 		2ADF7C7F20E462EB00F242A9 /* JaguarTom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */; };
 		2ADF7C8220E465CF00F242A9 /* JaguarSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C8120E465CF00F242A9 /* JaguarSystem.m */; };
 		2ADF7C8520E4671800F242A9 /* JaguarMemory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF7C8420E4671800F242A9 /* JaguarMemory.m */; };
+		2AFCFDF920E5BCF400170B48 /* Debugger68KWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFCFDF720E5BCF400170B48 /* Debugger68KWindowController.swift */; };
+		2AFCFDFA20E5BCF400170B48 /* Debugger68KWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFCFDF820E5BCF400170B48 /* Debugger68KWindowController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,8 @@
 		2ADF7C8120E465CF00F242A9 /* JaguarSystem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarSystem.m; sourceTree = "<group>"; };
 		2ADF7C8320E4671800F242A9 /* JaguarMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarMemory.h; sourceTree = "<group>"; };
 		2ADF7C8420E4671800F242A9 /* JaguarMemory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarMemory.m; sourceTree = "<group>"; };
+		2AFCFDF720E5BCF400170B48 /* Debugger68KWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Debugger68KWindowController.swift; path = Jagemu/Frontend/Debugger68KWindowController.swift; sourceTree = SOURCE_ROOT; };
+		2AFCFDF820E5BCF400170B48 /* Debugger68KWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Debugger68KWindowController.xib; path = Jagemu/Frontend/Debugger68KWindowController.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,13 +81,14 @@
 		2A203E5520E36EE200F77151 /* Jagemu */ = {
 			isa = PBXGroup;
 			children = (
+				2AFCFDEC20E5AE8800170B48 /* Frontend */,
 				2A57FF6620E46E8900E8A68E /* Jagemu-Bridging-Header.h */,
 				2ADF7C7C20E462D600F242A9 /* Jaguar */,
 				2A203E8620E375B500F77151 /* CInterface */,
 				2A203E6420E36EFA00F77151 /* Musashi */,
 				2A203E5620E36EE200F77151 /* AppDelegate.swift */,
-				2A203E5820E36EE400F77151 /* Assets.xcassets */,
 				2A203E5A20E36EE400F77151 /* MainMenu.xib */,
+				2A203E5820E36EE400F77151 /* Assets.xcassets */,
 				2A203E5D20E36EE400F77151 /* Info.plist */,
 				2A203E5E20E36EE400F77151 /* Jagemu.entitlements */,
 			);
@@ -133,6 +138,16 @@
 				2ADF7C8420E4671800F242A9 /* JaguarMemory.m */,
 			);
 			path = Jaguar;
+			sourceTree = "<group>";
+		};
+		2AFCFDEC20E5AE8800170B48 /* Frontend */ = {
+			isa = PBXGroup;
+			children = (
+				2AFCFDF720E5BCF400170B48 /* Debugger68KWindowController.swift */,
+				2AFCFDF820E5BCF400170B48 /* Debugger68KWindowController.xib */,
+			);
+			name = Frontend;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A203E5920E36EE400F77151 /* Assets.xcassets in Resources */,
+				2AFCFDFA20E5BCF400170B48 /* Debugger68KWindowController.xib in Resources */,
 				2A203E5C20E36EE400F77151 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,6 +231,7 @@
 				2A203E8420E373B600F77151 /* m68kdasm.c in Sources */,
 				2A203E8220E373B600F77151 /* m68kops.c in Sources */,
 				2ADF7C8220E465CF00F242A9 /* JaguarSystem.m in Sources */,
+				2AFCFDF920E5BCF400170B48 /* Debugger68KWindowController.swift in Sources */,
 				2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

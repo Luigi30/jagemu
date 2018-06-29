@@ -14,10 +14,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     
     let jaguar: JaguarSystem = JaguarSystem()
-
+    
+    let debugger68K = Debugger68KWindowController(windowNibName: NSNib.Name(rawValue: "Debugger68KWindowController"), owner: self)
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         
+        debugger68K.showWindow(nil)
+
         /* Initialize Musashi. */
         m68k_init();
         m68k_set_cpu_type(UInt32.init(M68K_CPU_TYPE_68000))
