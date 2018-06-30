@@ -11,7 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    @IBOutlet weak var window: NSWindow!
+    @IBOutlet weak var window: JaguarWindow!
     
     let jaguar: JaguarSystem = JaguarSystem.sharedJaguar() as! JaguarSystem
     let debugger: DebuggerMaster = DebuggerMaster.shared
@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         
-        //debugger68K.showWindow(nil)
+        window.setupMetalView()
         debugger.CPUDebugWindowController.showWindow(nil)
 
         /* Initialize Musashi. */

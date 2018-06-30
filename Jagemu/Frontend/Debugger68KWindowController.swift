@@ -88,7 +88,7 @@ class Debugger68KWindowController: NSWindowController {
         var size: UInt32 = 0
         var curpc: UInt32 = address
         
-        for x in 0..<50
+        for _ in 0..<50
         {
             size = m68k_disassemble(&msgBuf, curpc, UInt32(M68K_CPU_TYPE_68000))
             disassembledInstructions.append(Instruction68K(address: curpc, size: size, disassembly: String.init(cString: msgBuf)))

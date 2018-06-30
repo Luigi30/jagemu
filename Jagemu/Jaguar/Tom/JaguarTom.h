@@ -28,6 +28,6 @@
 
 -(instancetype)init;
 
--(UInt16)getVideoOverscanWidth();
+-(UInt16)getVideoOverscanWidth;
 
 @end
