@@ -6,10 +6,20 @@
 //  Copyright © 2018 Luigi Thirty. All rights reserved.
 //
 
+/* The Jaguar contains a CPU and two ASICs, Tom and Jerry.
+ *
+ * Tom contains the object processor, blitter, video generator, and GPU.
+ * Jerry contains the I/O subsystem, sound subsystem, and DSP.
+ *
+ */
+
 #import <Foundation/Foundation.h>
 
+#import "JaguarDefines.h"
 #import "JaguarMemory.h"
 #import "Tom/JaguarTom.h"
+
+#import "m68k.h"
 
 @interface JaguarSystem : NSObject {
     JaguarMemory *_Memory;
@@ -22,6 +32,8 @@
 @property JaguarMemory *Memory;
 
 - (instancetype) init;
+
+- (void)runJagForCycles:(UInt32)cycles;
 
 @end
 

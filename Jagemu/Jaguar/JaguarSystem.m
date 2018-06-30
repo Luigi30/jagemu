@@ -8,6 +8,8 @@
 
 #import "JaguarSystem.h"
 
+#import "Jagemu-Swift.h"
+
 @implementation JaguarSystem
 
 @synthesize Memory = _Memory;
@@ -31,6 +33,11 @@
     self.Memory = [self.Memory init];
     
     return self;
+}
+
+- (void)runJagForCycles:(UInt32)cycles
+{
+    m68k_execute(cycles);
 }
 
 @end
@@ -77,9 +84,9 @@ unsigned int cpu_read_byte(unsigned int address)
         return [JaguarSystem.sharedJaguar Memory].WorkRAM[address & 0x1FFFFF];
     }
     else if(address >= 0x800000 && address < 0xE00000)
-        return [JaguarSystem.sharedJaguar Memory].CartROM[address];
+        return [JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000];
     else if(address >= 0xE00000 && address < 0xE20000)
-        return [JaguarSystem.sharedJaguar Memory].BootROM[address];
+        return [JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000];
     else return 0;
 }
 
@@ -88,9 +95,9 @@ unsigned int cpu_read_word(unsigned int address)
     if(address < 0x400000)
         return ([JaguarSystem.sharedJaguar Memory].WorkRAM[address & 0x1FFFFF] << 8) | ([JaguarSystem.sharedJaguar Memory].WorkRAM[address+1 & 0x1FFFFF]);
     else if(address >= 0x800000 && address < 0xE00000)
-        return ([JaguarSystem.sharedJaguar Memory].CartROM[address] << 8) | ([JaguarSystem.sharedJaguar Memory].CartROM[address+1]);
+        return ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000] << 8) | ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+1]);
     else if(address >= 0xE00000 && address < 0xE20000)
-        return ([JaguarSystem.sharedJaguar Memory].BootROM[address] << 8) | ([JaguarSystem.sharedJaguar Memory].BootROM[address+1]);
+        return ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000] << 8) | ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+1]);
     else return 0;
 }
 
@@ -102,15 +109,15 @@ unsigned int cpu_read_long(unsigned int address)
         ([JaguarSystem.sharedJaguar Memory].WorkRAM[address+2 & 0x1FFFFF] << 8) |
         ([JaguarSystem.sharedJaguar Memory].WorkRAM[address+3 & 0x1FFFFF]);
     else if(address >= 0x800000 && address < 0xE00000)
-        return ([JaguarSystem.sharedJaguar Memory].CartROM[address] << 24) |
-        ([JaguarSystem.sharedJaguar Memory].CartROM[address+1] << 16) |
-        ([JaguarSystem.sharedJaguar Memory].CartROM[address+2] << 8) |
-        ([JaguarSystem.sharedJaguar Memory].CartROM[address+3]);
+        return ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000] << 24) |
+        ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+1] << 16) |
+        ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+2] << 8) |
+        ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+3]);
     else if(address >= 0xE00000 && address < 0xE20000)
-        return ([JaguarSystem.sharedJaguar Memory].BootROM[address] << 24) |
-        ([JaguarSystem.sharedJaguar Memory].BootROM[address+1] << 16) |
-        ([JaguarSystem.sharedJaguar Memory].BootROM[address+2] << 8) |
-        ([JaguarSystem.sharedJaguar Memory].BootROM[address+3]);
+        return ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000] << 24) |
+        ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+1] << 16) |
+        ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+2] << 8) |
+        ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+3]);
     else return 0;
 }
 
@@ -119,9 +126,9 @@ unsigned int cpu_read_word_dasm(unsigned int address)
     if(address < 0x400000)
         return ([JaguarSystem.sharedJaguar Memory].WorkRAM[address & 0x1FFFFF] << 8) | ([JaguarSystem.sharedJaguar Memory].WorkRAM[address+1 & 0x1FFFFF]);
     else if(address >= 0x800000 && address < 0xE00000)
-        return ([JaguarSystem.sharedJaguar Memory].CartROM[address] << 8) | ([JaguarSystem.sharedJaguar Memory].CartROM[address+1]);
+        return ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000] << 8) | ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+1]);
     else if(address >= 0xE00000 && address < 0xE20000)
-        return ([JaguarSystem.sharedJaguar Memory].BootROM[address] << 8) | ([JaguarSystem.sharedJaguar Memory].BootROM[address+1]);
+        return ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000] << 8) | ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+1]);
     else return 0;
 }
 
@@ -133,15 +140,15 @@ unsigned int cpu_read_long_dasm(unsigned int address)
         ([JaguarSystem.sharedJaguar Memory].WorkRAM[address+2 & 0x1FFFFF] << 8) |
         ([JaguarSystem.sharedJaguar Memory].WorkRAM[address+3 & 0x1FFFFF]);
     else if(address >= 0x800000 && address < 0xE00000)
-        return ([JaguarSystem.sharedJaguar Memory].CartROM[address] << 24) |
-        ([JaguarSystem.sharedJaguar Memory].CartROM[address+1] << 16) |
-        ([JaguarSystem.sharedJaguar Memory].CartROM[address+2] << 8) |
-        ([JaguarSystem.sharedJaguar Memory].CartROM[address+3]);
+        return ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000] << 24) |
+        ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+1] << 16) |
+        ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+2] << 8) |
+        ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+3]);
     else if(address >= 0xE00000 && address < 0xE20000)
-        return ([JaguarSystem.sharedJaguar Memory].BootROM[address] << 24) |
-        ([JaguarSystem.sharedJaguar Memory].BootROM[address+1] << 16) |
-        ([JaguarSystem.sharedJaguar Memory].BootROM[address+2] << 8) |
-        ([JaguarSystem.sharedJaguar Memory].BootROM[address+3]);
+        return ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000] << 24) |
+        ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+1] << 16) |
+        ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+2] << 8) |
+        ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+3]);
     else return 0;
 }
 

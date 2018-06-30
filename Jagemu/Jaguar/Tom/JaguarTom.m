@@ -11,12 +11,55 @@
 @implementation JaguarTom
 
 @synthesize registers = _registers;
+@synthesize objectProcessor = _objectProcessor;
 
 -(instancetype)init
 {
     self = [super init];
+    self.registers = malloc(sizeof(struct tom_registers_t));
+    self.objectProcessor = [[JaguarObjectProcessor alloc] init:self.registers];
     
     return self;
+}
+
+-(UInt16)getVideoOverscanWidth
+{
+    // Page 5 of Technical Reference.pdf
+    // Returns the number of pixels, including overscan, in one scanline.
+    // The value is read from bits 9-11 of VMODE.
+    
+    int divisor = (self.registers->VMODE & 0x700);
+    
+    switch (divisor) {
+        case 0x000:
+            return 1330;
+            break;
+        case 0x100:
+            return 665;
+            break;
+        case 0x200:
+            return 443;
+            break;
+        case 0x300:
+            return 332;
+            break;
+        case 0x400:
+            return 266;
+            break;
+        case 0x500:
+            return 222;
+            break;
+        case 0x600:
+            return 190;
+            break;
+        case 0x700:
+            return 166;
+            break;
+            
+        default:
+            return 0;
+            break;
+    }
 }
 
 @end
