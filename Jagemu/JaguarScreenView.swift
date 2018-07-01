@@ -41,7 +41,7 @@ class JaguarScreenView: MTKView {
     
     required convenience init(coder aDecoder: NSCoder)
     {
-        self.init(w: 320, h: 256)
+        self.init(w: 320, h: 240)
     }
     
     override func draw(_ dirtyRect: CGRect)

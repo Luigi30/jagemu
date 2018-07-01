@@ -47,7 +47,7 @@
 
 // Execution methods.
 - (void)performFrame;
-- (void)performHalfLine:(int)lineNum;
+- (void)performHalfLine: (int)lineNum isRendering:(Boolean)isRendering;
 
 @end
 

@@ -31,9 +31,8 @@
 {
     self = [super init];
     
-    self.Memory = [JaguarMemory alloc];
-    self.Memory = [self.Memory init];
-    
+    self.Memory = [[JaguarMemory alloc] init];
+    self.Tom = [[JaguarTom alloc] init];
     self.Texture = [[JaguarScreen alloc] initWith:MTLCreateSystemDefaultDevice()];
     
     self->oddFrame = false;
@@ -47,24 +46,33 @@
 }
 
 /* Execution functions. */
+const NSUInteger bytesPerPixel = 4;
+const NSUInteger bytesPerRow = bytesPerPixel * 320;
+
 - (void)performFrame
 {
+    /* Perform one frame of Jaguar.
+     * For our purposes, one frame contains 262 scanlines, 240 of which are visible.
+     * Thus, we have 320x240 output. */
     
-    /* Debugging: Draw white to the whole screen just because */
-    const NSUInteger bytesPerPixel = 4;
-    const NSUInteger bytesPerRow = bytesPerPixel * _Texture.Texture.width;
-    
-    uint8_t row[bytesPerRow];
-    for(int i=0;i<bytesPerRow;i++)
+    /* Non-visible area */
+    /* 6 VSYNC pulses = 12 half-lines */
+    for (int lineNum=0; lineNum<12; lineNum++)
     {
-        row[i] = 0xFF;
+        [self performHalfLine:lineNum isRendering:false];
     }
     
-    for (int lineNum=0; lineNum<256; lineNum++)
+    /* 16 VBLANK pulses = 32 half-lines */
+    for (int lineNum=12; lineNum<44; lineNum++)
     {
-        //[self performHalfLine:lineNum];
-        MTLRegion region = MTLRegionMake2D(0, lineNum, _Texture.Texture.width, 1);
-        [_Texture.Texture replaceRegion:region mipmapLevel:0 withBytes:row bytesPerRow:bytesPerRow];
+        [self performHalfLine:lineNum isRendering:false];
+    }
+    
+    /* Visible area */
+    /* 240 visible scanlines = 480 half-lines. */
+    for (int lineNum=44; lineNum<525; lineNum++)
+    {
+        [self performHalfLine:lineNum isRendering:true];
     }
     
     // Flip this bit each frame.
@@ -72,9 +80,18 @@
 
 }
 
-- (void)performHalfLine:(int)lineNum
+/* isRendering: Set if we need to copy a line buffer to the screen. */
+- (void)performHalfLine:(int)lineNum isRendering:(Boolean)isRendering
 {
-
+    m68k_execute(CPU_CLOCKS_PER_HALFLINE);
+    [[self Tom] executeHalfLine:lineNum renderLine:isRendering];
+    
+    uint32_t *active_line_buffer = [[JaguarSystem sharedJaguar] Tom].registers->LBUF_ACTIVE;
+    if(isRendering)
+    {
+        MTLRegion region = MTLRegionMake2D(0, lineNum, 320, 1);
+        [_Texture.Texture replaceRegion:region mipmapLevel:0 withBytes:active_line_buffer bytesPerRow:bytesPerRow];
+    }
 }
 
 @end

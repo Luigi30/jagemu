@@ -15,6 +15,9 @@ typedef struct {
 } TextureMappingVertex;
 
 vertex TextureMappingVertex mapTexture(unsigned int vertex_id [[ vertex_id ]]) {
+    
+    /* TODO: pass interlace flag from Tom to the texture coordinates */
+    
     float4x4 renderedCoordinates = float4x4(float4( -1.0, -1.0, 0.0, 1.0 ),      /// (x, y, depth, W)
                                             float4(  1.0, -1.0, 0.0, 1.0 ),
                                             float4( -1.0,  1.0, 0.0, 1.0 ),

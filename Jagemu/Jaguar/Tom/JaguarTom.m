@@ -19,7 +19,21 @@
     self.registers = malloc(sizeof(struct tom_registers_t));
     self.objectProcessor = [[JaguarObjectProcessor alloc] init:self.registers];
     
+    self.registers->LBUF_ACTIVE = self.registers->LBUF_A;
+    
     return self;
+}
+
+-(void) executeHalfLine:(int)halfline renderLine:(Boolean)renderLine
+{
+    // If we're in the visible area, this is the line number we're on. The OP will want to know this.
+    int visibleAreaLine = halfline - 44;
+    
+    // Do stuff!
+    
+    // - Run the object processor if required
+    // - Run the RISC GPU for a half-frame if enabled
+    
 }
 
 -(UInt16)getVideoOverscanWidth

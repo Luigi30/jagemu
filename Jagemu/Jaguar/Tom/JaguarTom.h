@@ -28,6 +28,8 @@
 
 -(instancetype)init;
 
+-(void) executeHalfLine:(int)halfline renderLine:(Boolean)renderLine;
+
 -(UInt16)getVideoOverscanWidth;
 
 @end
