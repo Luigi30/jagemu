@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import MetalKit
 
 class JaguarWindow: NSWindow {
     var metalView: JaguarScreenView!

@@ -35,8 +35,8 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="M68K Debugger" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="700" height="500"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES"/>
+            <rect key="contentRect" x="20" y="250" width="700" height="500"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" autoresizesSubviews="NO" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="700" height="500"/>
@@ -483,7 +483,7 @@
                                         </subviews>
                                     </clipView>
                                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="KJc-pD-MKy">
-                                        <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                        <rect key="frame" x="1" y="8" width="0.0" height="15"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Czu-5f-iiB">

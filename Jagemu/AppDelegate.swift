@@ -13,13 +13,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: JaguarWindow!
     
-    let jaguar: JaguarSystem = JaguarSystem.sharedJaguar() as! JaguarSystem
+    var jaguar: JaguarSystem? = nil
     let debugger: DebuggerMaster = DebuggerMaster.shared
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
-        
+        jaguar = JaguarSystem.sharedJaguar() as? JaguarSystem
         window.setupMetalView()
+        jaguar!.screen = window.metalView
+        
         debugger.CPUDebugWindowController.showWindow(nil)
 
         /* Initialize Musashi. */
@@ -28,8 +30,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         m68k_pulse_reset()
         
         /* all righty, let's load us a BIOS */
-        jaguar.memory.loadBootROM("/Users/luigi/Documents/Xcode Projects/Jagemu/[BIOS] Atari Jaguar (World).j64")
-        print(jaguar.memory.bootROM[0xE00010])
+        jaguar!.memory.loadBootROM("/Users/luigi/Documents/Xcode Projects/Jagemu/[BIOS] Atari Jaguar (World).j64")
+        print(jaguar!.memory.bootROM[0xE00010])
         print(cpu_read_byte(0xE00010))
     }
 

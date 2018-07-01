@@ -11,8 +11,6 @@ import Metal
 import MetalKit
 
 class JaguarScreenView: MTKView {
-    
-    var back_buffer: MTLTexture! = nil
     var library: MTLLibrary! = nil
     var renderPipelineState: MTLRenderPipelineState! = nil
     
@@ -22,14 +20,7 @@ class JaguarScreenView: MTKView {
         
         library = device!.makeDefaultLibrary()!
         
-        let back_buffer_desc = MTLTextureDescriptor()
-        back_buffer_desc.pixelFormat = .rgba8Uint // Jaguar outputs RGB888 so just match that
-        
-        // Simulate a 320x256 TV screen
-        back_buffer_desc.width = 320
-        back_buffer_desc.height = 256
-        
-        back_buffer = device!.makeTexture(descriptor: back_buffer_desc)
+        self.colorPixelFormat = .bgra8Unorm
         
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.sampleCount = 1
@@ -46,7 +37,6 @@ class JaguarScreenView: MTKView {
             assertionFailure("Failed creating a render state pipeline. Can't render the texture without one.")
             return
         }
-
     }
     
     required convenience init(coder aDecoder: NSCoder)
@@ -56,8 +46,14 @@ class JaguarScreenView: MTKView {
     
     override func draw(_ dirtyRect: CGRect)
     {
+        
+        // The Jaguar processes in terms of NTSC fields, which are interlaced.
+        (JaguarSystem.sharedJaguar() as! JaguarSystem).performFrame()
+        
         if let drawable = currentDrawable {
             if let pass_descriptor = currentRenderPassDescriptor {
+                let jag_texture = (JaguarSystem.sharedJaguar() as! JaguarSystem).texture.texture
+                
                 pass_descriptor.colorAttachments[0].texture = drawable.texture
                 pass_descriptor.colorAttachments[0].storeAction = .store
                 pass_descriptor.colorAttachments[0].loadAction = .clear
@@ -70,7 +66,7 @@ class JaguarScreenView: MTKView {
                 let encoder = command_buffer!.makeRenderCommandEncoder(descriptor: pass_descriptor)
                 
                 encoder?.setRenderPipelineState(renderPipelineState)
-                encoder?.setFragmentTexture(currentDrawable?.texture, index: 0)
+                encoder?.setFragmentTexture(jag_texture, index: 0)
                 encoder?.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
                 encoder?.endEncoding()
                 

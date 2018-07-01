@@ -14,26 +14,40 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <Metal/Metal.h>
 
 #import "JaguarDefines.h"
 #import "JaguarMemory.h"
 #import "Tom/JaguarTom.h"
+#import "JaguarScreen.h"
 
 #import "m68k.h"
+
+@class JaguarScreenView;
 
 @interface JaguarSystem : NSObject {
     JaguarMemory *_Memory;
     JaguarTom *_Tom;
+    JaguarScreenView *_Screen;
+    JaguarScreen *_Texture;
+    
+    Boolean oddFrame;
 }
-
-+ (id)sharedJaguar;
 
 @property JaguarTom *Tom;
 @property JaguarMemory *Memory;
+@property JaguarScreenView *Screen;
+@property JaguarScreen *Texture;
+
++ (id)sharedJaguar;
 
 - (instancetype) init;
 
 - (void)runJagForCycles:(UInt32)cycles;
+
+// Execution methods.
+- (void)performFrame;
+- (void)performHalfLine:(int)lineNum;
 
 @end
 

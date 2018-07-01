@@ -27,6 +27,7 @@
 		2AE651E720E81E4000380482 /* Debugger68KWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651E520E81E4000380482 /* Debugger68KWindowController.swift */; };
 		2AE651E920E8209B00380482 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651E820E8209B00380482 /* Shaders.metal */; };
 		2AE651EB20E8213E00380482 /* JaguarWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651EA20E8213E00380482 /* JaguarWindow.swift */; };
+		2AE651EE20E85CD600380482 /* JaguarScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651ED20E85CD600380482 /* JaguarScreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +64,8 @@
 		2AE651E520E81E4000380482 /* Debugger68KWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Debugger68KWindowController.swift; path = Frontend/Debugger68KWindowController.swift; sourceTree = "<group>"; };
 		2AE651E820E8209B00380482 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		2AE651EA20E8213E00380482 /* JaguarWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JaguarWindow.swift; sourceTree = "<group>"; };
+		2AE651EC20E85CD600380482 /* JaguarScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarScreen.h; sourceTree = "<group>"; };
+		2AE651ED20E85CD600380482 /* JaguarScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarScreen.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +170,8 @@
 				2AE651E420E81E4000380482 /* Debugger68KWindowController.xib */,
 				2AE651E120E81E1200380482 /* JaguarScreenView.swift */,
 				2AE651EA20E8213E00380482 /* JaguarWindow.swift */,
+				2AE651EC20E85CD600380482 /* JaguarScreen.h */,
+				2AE651ED20E85CD600380482 /* JaguarScreen.m */,
 			);
 			name = Frontend;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 				2A203E7F20E373B600F77151 /* m68kcpu.c in Sources */,
 				2ADEA55F20E74AB0005F453C /* JaguarObjectProcessor.m in Sources */,
 				2ADF7C7F20E462EB00F242A9 /* JaguarTom.m in Sources */,
+				2AE651EE20E85CD600380482 /* JaguarScreen.m in Sources */,
 				2A203E8120E373B600F77151 /* m68kopdm.c in Sources */,
 				2A203E7D20E373B600F77151 /* m68kopac.c in Sources */,
 				2AE651E920E8209B00380482 /* Shaders.metal in Sources */,

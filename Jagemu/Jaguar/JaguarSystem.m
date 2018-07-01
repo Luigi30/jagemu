@@ -14,6 +14,8 @@
 
 @synthesize Memory = _Memory;
 @synthesize Tom = _Tom;
+@synthesize Screen = _Screen;
+@synthesize Texture = _Texture;
 
 + (id)sharedJaguar
 {
@@ -32,12 +34,47 @@
     self.Memory = [JaguarMemory alloc];
     self.Memory = [self.Memory init];
     
+    self.Texture = [[JaguarScreen alloc] initWith:MTLCreateSystemDefaultDevice()];
+    
+    self->oddFrame = false;
+    
     return self;
 }
 
 - (void)runJagForCycles:(UInt32)cycles
 {
     m68k_execute(cycles);
+}
+
+/* Execution functions. */
+- (void)performFrame
+{
+    
+    /* Debugging: Draw white to the whole screen just because */
+    const NSUInteger bytesPerPixel = 4;
+    const NSUInteger bytesPerRow = bytesPerPixel * _Texture.Texture.width;
+    
+    uint8_t row[bytesPerRow];
+    for(int i=0;i<bytesPerRow;i++)
+    {
+        row[i] = 0xFF;
+    }
+    
+    for (int lineNum=0; lineNum<256; lineNum++)
+    {
+        //[self performHalfLine:lineNum];
+        MTLRegion region = MTLRegionMake2D(0, lineNum, _Texture.Texture.width, 1);
+        [_Texture.Texture replaceRegion:region mipmapLevel:0 withBytes:row bytesPerRow:bytesPerRow];
+    }
+    
+    // Flip this bit each frame.
+    oddFrame = ~oddFrame;
+
+}
+
+- (void)performHalfLine:(int)lineNum
+{
+
 }
 
 @end

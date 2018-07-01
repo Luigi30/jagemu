@@ -11,5 +11,6 @@
 
 #import "Musashi/m68k.h"
 #import "Jaguar/JaguarSystem.h"
+#import "JaguarScreen.h"
 
 #endif /* Jagemu_Bridging_Header_h */
