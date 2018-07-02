@@ -24,15 +24,17 @@
     return self;
 }
 
--(void) executeHalfLine:(int)halfline renderLine:(Boolean)renderLine
+-(void) executeHalfLine
 {
     // If we're in the visible area, this is the line number we're on. The OP will want to know this.
-    int visibleAreaLine = halfline - 44;
+    //int visibleAreaLine = halfline - 44;
     
     // Do stuff!
     
     // - Run the object processor if required
     // - Run the RISC GPU for a half-frame if enabled
+    
+    printf("Tom half-line (VC %d, VP %d)\n", _registers->VC, _registers->VP);
     
 }
 

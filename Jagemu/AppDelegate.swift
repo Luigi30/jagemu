@@ -28,6 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         m68k_init();
         m68k_set_cpu_type(UInt32.init(M68K_CPU_TYPE_68000))
         m68k_pulse_reset()
+        cpu_pulse_reset();
         
         /* all righty, let's load us a BIOS */
         jaguar!.memory.loadBootROM("/Users/luigi/Documents/Xcode Projects/Jagemu/[BIOS] Atari Jaguar (World).j64")

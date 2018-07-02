@@ -16,6 +16,7 @@
 @synthesize Tom = _Tom;
 @synthesize Screen = _Screen;
 @synthesize Texture = _Texture;
+@synthesize Timers = _Timers;
 
 + (id)sharedJaguar
 {
@@ -34,6 +35,7 @@
     self.Memory = [[JaguarMemory alloc] init];
     self.Tom = [[JaguarTom alloc] init];
     self.Texture = [[JaguarScreen alloc] initWith:MTLCreateSystemDefaultDevice()];
+    self.Timers = [[JaguarSyncTimers alloc] init];
     
     self->oddFrame = false;
     
@@ -49,52 +51,82 @@
 const NSUInteger bytesPerPixel = 4;
 const NSUInteger bytesPerRow = bytesPerPixel * 320;
 
+Boolean frame_is_complete;
 - (void)performFrame
 {
     /* Perform one frame of Jaguar.
      * For our purposes, one frame contains 262 scanlines, 240 of which are visible.
      * Thus, we have 320x240 output. */
+    frame_is_complete = false;
     
-    /* Non-visible area */
-    /* 6 VSYNC pulses = 12 half-lines */
-    for (int lineNum=0; lineNum<12; lineNum++)
-    {
-        [self performHalfLine:lineNum isRendering:false];
-    }
+    SyncTimer *timer = [[SyncTimer alloc] initWithMicroseconds:USEC_PER_HALFLINE
+                                                     repeating:true
+                                                    timer_type:T_TYPE_HALFLINE_END
+                                                        source:T_DEV_INTERNAL
+                                                   destination:T_DEV_INTERNAL
+                                                      callback:@selector(CALLBACK_halfLine)];
+    [[self Timers] addTimer:timer];
     
-    /* 16 VBLANK pulses = 32 half-lines */
-    for (int lineNum=12; lineNum<44; lineNum++)
+    do
     {
-        [self performHalfLine:lineNum isRendering:false];
+        double microseconds = [[self Timers] microsecondsToNextTimerExpiration];
+        m68k_execute(USEC_TO_M68K_CLOCKS(microseconds));
+        
+        [[self Timers] performNextTimer];
     }
+    while (!frame_is_complete);
     
-    /* Visible area */
-    /* 240 visible scanlines = 480 half-lines. */
-    for (int lineNum=44; lineNum<525; lineNum++)
-    {
-        [self performHalfLine:lineNum isRendering:true];
-    }
+    printf("Frame complete\n");
+    
+    //printf("performFrame\n");
+    //printf("One half-line is %f uS\n", USEC_PER_HALFLINE);
+    
+    //printf("Executing %f clocks\n", timer.uS_to_fire * CPU_CLOCKS_PER_USEC);
     
     // Flip this bit each frame.
     oddFrame = ~oddFrame;
-
+    
+    return;
 }
 
-/* isRendering: Set if we need to copy a line buffer to the screen. */
-- (void)performHalfLine:(int)lineNum isRendering:(Boolean)isRendering
+/* Callbacks */
+
+-(void)CALLBACK_halfLine
 {
-    m68k_execute(CPU_CLOCKS_PER_HALFLINE);
-    [[self Tom] executeHalfLine:lineNum renderLine:isRendering];
+    //printf("CALLBACK: Execute a half-line.\n");
+    /*
+     m68k_execute(CPU_CLOCKS_PER_HALFLINE);
+     [[self Tom] executeHalfLine:lineNum renderLine:isRendering];
+     
+     uint32_t *active_line_buffer = [[JaguarSystem sharedJaguar] Tom].registers->LBUF_ACTIVE;
+     if(isRendering)
+     {
+     MTLRegion region = MTLRegionMake2D(0, lineNum, 320, 1);
+     [_Texture.Texture replaceRegion:region mipmapLevel:0 withBytes:active_line_buffer bytesPerRow:bytesPerRow];
+     }
+     */
     
-    uint32_t *active_line_buffer = [[JaguarSystem sharedJaguar] Tom].registers->LBUF_ACTIVE;
-    if(isRendering)
+    // Advance the vertical line counter and update it
+    self.Tom.registers->VC += 1;
+    
+    // TODO: VI - video interrupt
+    
+    [[self Tom] executeHalfLine];
+    
+    if(self.Tom.registers->VC > self.Tom.registers->VP+1) // VP is actually VP+1
     {
-        MTLRegion region = MTLRegionMake2D(0, lineNum, 320, 1);
-        [_Texture.Texture replaceRegion:region mipmapLevel:0 withBytes:active_line_buffer bytesPerRow:bytesPerRow];
+        self.Tom.registers->VC = 0; // ? exact timing
+        frame_is_complete = true;
     }
 }
 
 @end
+
+/*************************************
+ MUSASHI SUPPORT
+ MUSASHI SUPPORT
+ MUSASHI SUPPORT
+ *************************************/
 
 /* Musashi support. Here be C. */
 int cpu_irq_ack(int level)
@@ -115,12 +147,15 @@ void cpu_pulse_reset(void)
     // Peripherals are 4 cycles per access
     // CPU has a 16-bit data bus
     [JaguarSystem.sharedJaguar Tom]->_registers->MEMCON1 = 0x1861;
+    
+    //DEBUG
+    [JaguarSystem.sharedJaguar Tom]->_registers->VP = 524; // 525 lines
 }
 
 /* Called before each instruction, if configured so. */
 void cpu_instr_callback(void)
 {
-    // TODO
+    
 }
 
 uint8_t fc;

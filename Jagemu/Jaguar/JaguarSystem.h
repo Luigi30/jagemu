@@ -18,8 +18,11 @@
 
 #import "JaguarDefines.h"
 #import "JaguarMemory.h"
-#import "Tom/JaguarTom.h"
 #import "JaguarScreen.h"
+#import "JaguarSyncTimers.h"
+
+#import "Tom/JaguarTom.h"
+#import "Tom/JaguarTomRegisters.h"
 
 #import "m68k.h"
 
@@ -30,6 +33,7 @@
     JaguarTom *_Tom;
     JaguarScreenView *_Screen;
     JaguarScreen *_Texture;
+    JaguarSyncTimers *_Timers;
     
     Boolean oddFrame;
 }
@@ -38,6 +42,7 @@
 @property JaguarMemory *Memory;
 @property JaguarScreenView *Screen;
 @property JaguarScreen *Texture;
+@property JaguarSyncTimers *Timers;
 
 + (id)sharedJaguar;
 
@@ -47,7 +52,8 @@
 
 // Execution methods.
 - (void)performFrame;
-- (void)performHalfLine: (int)lineNum isRendering:(Boolean)isRendering;
+- (void)performHalfLine;
+- (void)CALLBACK_halfLine;
 
 @end
 
