@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#define LINE_BUFFER_LONG_WIDTH 360
+#define LINE_BUFFER_WORD_WIDTH 360*2
+#define LINE_BUFFER_BYTE_WIDTH 360*4
+
 struct tom_registers_t {
     /* $F00000... */
     uint16_t    MEMCON1;

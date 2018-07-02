@@ -147,9 +147,28 @@ void cpu_pulse_reset(void)
     // Peripherals are 4 cycles per access
     // CPU has a 16-bit data bus
     [JaguarSystem.sharedJaguar Tom]->_registers->MEMCON1 = 0x1861;
+    [JaguarSystem.sharedJaguar Tom]->_registers->VMODE = 0x6C1;
     
-    //DEBUG
-    [JaguarSystem.sharedJaguar Tom]->_registers->VP = 524; // 525 lines
+    //DEBUG: Match the boot ROM's setup. The boot ROM won't execute yet.
+    //https://www.mulle-kybernetik.com/jagdox/video.html#VIDEO for details
+    
+    [JaguarSystem.sharedJaguar Tom]->_registers->VP = 523; // 525 lines
+    [JaguarSystem.sharedJaguar Tom]->_registers->VBB = 500;
+    [JaguarSystem.sharedJaguar Tom]->_registers->VBE = 24;
+    [JaguarSystem.sharedJaguar Tom]->_registers->VS = 517;
+    [JaguarSystem.sharedJaguar Tom]->_registers->VEB = 511;
+    [JaguarSystem.sharedJaguar Tom]->_registers->VEE = 6;
+    
+    // 240 visible scanlines
+    [JaguarSystem.sharedJaguar Tom]->_registers->VDB = 38;
+    [JaguarSystem.sharedJaguar Tom]->_registers->VDE = 518;
+
+    [JaguarSystem.sharedJaguar Tom]->_registers->HP = 1084;
+    [JaguarSystem.sharedJaguar Tom]->_registers->HS = 1741;
+    [JaguarSystem.sharedJaguar Tom]->_registers->HBE = 125;
+    [JaguarSystem.sharedJaguar Tom]->_registers->HBB = 1713;
+    [JaguarSystem.sharedJaguar Tom]->_registers->HVS = 651;
+    [JaguarSystem.sharedJaguar Tom]->_registers->HEQ = 782;
 }
 
 /* Called before each instruction, if configured so. */

@@ -34,8 +34,38 @@
     // - Run the object processor if required
     // - Run the RISC GPU for a half-frame if enabled
     
-    printf("Tom half-line (VC %d, VP %d)\n", _registers->VC, _registers->VP);
+    const uint16_t halfline = _registers->VC;
+    const uint16_t visible_halfline_start = _registers->VDB;
+    const uint16_t visible_halfline_end = _registers->VDE;
     
+    // DEBUG: Object processor only runs on even lines.
+    if(halfline & 0x01)
+        return; // odd half-line
+    
+    printf("Tom half-line (VC %d, VP %d) |", halfline, _registers->VP);
+    
+    if(halfline >= visible_halfline_start && halfline <= visible_halfline_end)
+    {
+        printf(" Inside visible area");
+        
+        // Find the current line buffer and fill it with the background color, if enabled.
+        uint16_t *current_line_buffer = (uint16_t *)_registers->LBUF_ACTIVE;
+        
+        if(_registers->VMODE & 0x80) // BGEN bit
+        {
+            // Grab the background color.
+            uint16_t bg_color = _registers->BG;
+            for(int i=0; i<LINE_BUFFER_WORD_WIDTH; i++)
+            {
+                current_line_buffer[i] = bg_color;
+            }
+        }
+        
+        // TODO: rendering to the screen
+        
+    }
+    
+    printf("\n");
 }
 
 -(UInt16)getVideoOverscanWidth
