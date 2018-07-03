@@ -26,7 +26,7 @@
     MTLTextureDescriptor *desc = [[MTLTextureDescriptor alloc] init];
     desc.pixelFormat = MTLPixelFormatBGRA8Unorm;
     desc.width = 320;
-    desc.height = 480; // Screen height * 2 to account for interlacing
+    desc.height = 256;
     desc.usage = MTLTextureUsageShaderRead | MTLTextureUsageRenderTarget;
     self.Texture = [device newTextureWithDescriptor:desc];
     

@@ -14,7 +14,7 @@ class JaguarWindow: NSWindow {
     
     func setupMetalView()
     {
-        metalView = JaguarScreenView(w: 320, h: 240)
+        metalView = JaguarScreenView(w: 320, h: 256)
         self.contentView?.addSubview(metalView)
     }
 }

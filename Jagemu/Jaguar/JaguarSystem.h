@@ -52,7 +52,7 @@
 
 // Execution methods.
 - (void)performFrame;
-- (void)performHalfLine;
+//- (void)performHalfLine;
 - (void)CALLBACK_halfLine;
 
 @end

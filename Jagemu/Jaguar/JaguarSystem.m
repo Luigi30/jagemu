@@ -39,6 +39,15 @@
     
     self->oddFrame = false;
     
+    /* Add the half-line timer to the timers list */
+    SyncTimer *timer = [[SyncTimer alloc] initWithMicroseconds:USEC_PER_HALFLINE
+                                                     repeating:true
+                                                    timer_type:T_TYPE_HALFLINE_END
+                                                        source:T_DEV_INTERNAL
+                                                   destination:T_DEV_INTERNAL
+                                                      callback:@selector(CALLBACK_halfLine)];
+    [[self Timers] addTimer:timer];
+    
     return self;
 }
 
@@ -48,8 +57,7 @@
 }
 
 /* Execution functions. */
-const NSUInteger bytesPerPixel = 4;
-const NSUInteger bytesPerRow = bytesPerPixel * 320;
+
 
 Boolean frame_is_complete;
 - (void)performFrame
@@ -59,17 +67,15 @@ Boolean frame_is_complete;
      * Thus, we have 320x240 output. */
     frame_is_complete = false;
     
-    SyncTimer *timer = [[SyncTimer alloc] initWithMicroseconds:USEC_PER_HALFLINE
-                                                     repeating:true
-                                                    timer_type:T_TYPE_HALFLINE_END
-                                                        source:T_DEV_INTERNAL
-                                                   destination:T_DEV_INTERNAL
-                                                      callback:@selector(CALLBACK_halfLine)];
-    [[self Timers] addTimer:timer];
+    printf("One half-line is %f uS\n", USEC_PER_HALFLINE);
     
     do
     {
         double microseconds = [[self Timers] microsecondsToNextTimerExpiration];
+        
+        //printf("Next timer expires in %f microseconds\n", microseconds);
+        //printf("Executing %f clocks\n", USEC_TO_M68K_CLOCKS(microseconds));
+        
         m68k_execute(USEC_TO_M68K_CLOCKS(microseconds));
         
         [[self Timers] performNextTimer];
@@ -77,12 +83,7 @@ Boolean frame_is_complete;
     while (!frame_is_complete);
     
     printf("Frame complete\n");
-    
-    //printf("performFrame\n");
-    //printf("One half-line is %f uS\n", USEC_PER_HALFLINE);
-    
-    //printf("Executing %f clocks\n", timer.uS_to_fire * CPU_CLOCKS_PER_USEC);
-    
+      
     // Flip this bit each frame.
     oddFrame = ~oddFrame;
     
@@ -137,38 +138,7 @@ int cpu_irq_ack(int level)
 /* Reset callback. */
 void cpu_pulse_reset(void)
 {
-    // set up MEMCON1 and MEMCON2
-    
-    // Default value of MEMCON1.
-    // ROM is in the upper 8MB
-    // ROM is 8-bit
-    // ROM access is 10 clock cycles
-    // RAM is zero wait state
-    // Peripherals are 4 cycles per access
-    // CPU has a 16-bit data bus
-    [JaguarSystem.sharedJaguar Tom]->_registers->MEMCON1 = 0x1861;
-    [JaguarSystem.sharedJaguar Tom]->_registers->VMODE = 0x6C1;
-    
-    //DEBUG: Match the boot ROM's setup. The boot ROM won't execute yet.
-    //https://www.mulle-kybernetik.com/jagdox/video.html#VIDEO for details
-    
-    [JaguarSystem.sharedJaguar Tom]->_registers->VP = 523; // 525 lines
-    [JaguarSystem.sharedJaguar Tom]->_registers->VBB = 500;
-    [JaguarSystem.sharedJaguar Tom]->_registers->VBE = 24;
-    [JaguarSystem.sharedJaguar Tom]->_registers->VS = 517;
-    [JaguarSystem.sharedJaguar Tom]->_registers->VEB = 511;
-    [JaguarSystem.sharedJaguar Tom]->_registers->VEE = 6;
-    
-    // 240 visible scanlines
-    [JaguarSystem.sharedJaguar Tom]->_registers->VDB = 38;
-    [JaguarSystem.sharedJaguar Tom]->_registers->VDE = 518;
-
-    [JaguarSystem.sharedJaguar Tom]->_registers->HP = 1084;
-    [JaguarSystem.sharedJaguar Tom]->_registers->HS = 1741;
-    [JaguarSystem.sharedJaguar Tom]->_registers->HBE = 125;
-    [JaguarSystem.sharedJaguar Tom]->_registers->HBB = 1713;
-    [JaguarSystem.sharedJaguar Tom]->_registers->HVS = 651;
-    [JaguarSystem.sharedJaguar Tom]->_registers->HEQ = 782;
+    [[[JaguarSystem sharedJaguar] Tom] reset];
 }
 
 /* Called before each instruction, if configured so. */

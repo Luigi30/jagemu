@@ -33,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A0FE2C420EB199700CBDC40 /* cry2rgb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cry2rgb.h; sourceTree = "<group>"; };
 		2A203E5320E36EE200F77151 /* Jagemu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jagemu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A203E5620E36EE200F77151 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2A203E5820E36EE400F77151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -162,6 +163,7 @@
 				2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */,
 				2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */,
 				2ADEA56020E74CDF005F453C /* JaguarTomRegisters.h */,
+				2A0FE2C420EB199700CBDC40 /* cry2rgb.h */,
 			);
 			path = Tom;
 			sourceTree = "<group>";

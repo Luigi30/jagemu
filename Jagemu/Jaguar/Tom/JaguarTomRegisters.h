@@ -12,6 +12,33 @@
 #define LINE_BUFFER_WORD_WIDTH 360*2
 #define LINE_BUFFER_BYTE_WIDTH 360*4
 
+// VMODE register flags.
+typedef enum vmode_flags_t {
+    VIDEN = 0x0001,         // Enable video time base generator
+    
+    // Graphics mode
+    CRY16 = 0x0000,         // 16-bit CRY
+    RGB24 = 0x0002,         // 24-bit RGB
+    DIRECT16 = 0x0004,      // 16-bit DIRECT
+    RGB16 = 0x0006,         // 16-bit RGB
+    
+    GENLOCK = 0x0008,       // Genlock - not supported in Jaguar console
+    INCEN = 0x0010,         // Video source encrustation
+    BINC = 0x0020,          // If encrustation is enabled, select local border color
+    CSYNC = 0x0040,         // Enable composite sync
+    BGEN = 0x0080,          // Enable background color
+    VARMOD = 0x0100,        // Variable color resolution mode
+    
+    PWIDTH1 = 0x0000,       // Pixel width in video clock cycles.
+    PWIDTH2 = 0x0200,       // Display width should be a multiple of the selected pixel width.
+    PWIDTH3 = 0x0400,
+    PWIDTH4 = 0x0600,
+    PWIDTH5 = 0x0800,
+    PWIDTH6 = 0x0A00,
+    PWIDTH7 = 0x0C00,
+    PWIDTH8 = 0x0E00
+} VMODE_FLAGS;
+
 struct tom_registers_t {
     /* $F00000... */
     uint16_t    MEMCON1;
