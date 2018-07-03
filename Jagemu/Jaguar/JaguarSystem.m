@@ -92,21 +92,9 @@ Boolean frame_is_complete;
 
 /* Callbacks */
 
+// Called every time the system is starting a half-line.
 -(void)CALLBACK_halfLine
 {
-    //printf("CALLBACK: Execute a half-line.\n");
-    /*
-     m68k_execute(CPU_CLOCKS_PER_HALFLINE);
-     [[self Tom] executeHalfLine:lineNum renderLine:isRendering];
-     
-     uint32_t *active_line_buffer = [[JaguarSystem sharedJaguar] Tom].registers->LBUF_ACTIVE;
-     if(isRendering)
-     {
-     MTLRegion region = MTLRegionMake2D(0, lineNum, 320, 1);
-     [_Texture.Texture replaceRegion:region mipmapLevel:0 withBytes:active_line_buffer bytesPerRow:bytesPerRow];
-     }
-     */
-    
     // Advance the vertical line counter and update it
     self.Tom.registers->VC += 1;
     

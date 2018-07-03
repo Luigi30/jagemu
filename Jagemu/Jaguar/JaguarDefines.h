@@ -55,4 +55,7 @@
 
 #define USEC_TO_M68K_CLOCKS(X)  ( X * CPU_CLOCKS_PER_USEC )
 
+/* Types */
+typedef uint32_t JAGPTR;
+
 #endif /* JaguarDefines_h */

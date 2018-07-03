@@ -9,6 +9,8 @@
 #import "JaguarTom.h"
 #import "JaguarSystem.h"
 
+#include "cry2rgb.h"
+
 @implementation JaguarTom
 
 @synthesize registers = _registers;
@@ -22,13 +24,45 @@ const NSUInteger LBUF_bytesPerRow = LBUF_bytesPerPixel * 320;
     self = [super init];
     self.registers = malloc(sizeof(struct tom_registers_t));
     self.objectProcessor = [[JaguarObjectProcessor alloc] init:self.registers];
-    
     self.registers->LBUF_ACTIVE = self.registers->LBUF_A;
+
+    [self fillColorLookupTables];
     
     return self;
 }
 
--(void) executeHalfLine
+// Color conversion tables from VJ 2.1
+uint32_t RGB16ToRGB32[0x10000];
+uint32_t CRY16ToRGB32[0x10000];
+uint32_t MIX16ToRGB32[0x10000];
+
+// Straight from VJ 2.1. This isn't endian-safe.
+-(void)fillColorLookupTables
+{
+    // NOTE: Jaguar 16-bit (non-CRY) color is RBG 556 like so:
+    //       RRRR RBBB BBGG GGGG
+    for(uint32_t i=0; i<0x10000; i++)
+        RGB16ToRGB32[i] = 0x000000FF
+        | ((i & 0xF800) << 16)                    // Red
+        | ((i & 0x003F) << 18)                    // Green
+        | ((i & 0x07C0) << 5);                    // Blue
+    
+    for(uint32_t i=0; i<0x10000; i++)
+    {
+        uint32_t cyan = (i & 0xF000) >> 12,
+        red = (i & 0x0F00) >> 8,
+        intensity = (i & 0x00FF);
+        
+        uint32_t r = (((uint32_t)redcv[cyan][red]) * intensity) >> 8,
+        g = (((uint32_t)greencv[cyan][red]) * intensity) >> 8,
+        b = (((uint32_t)bluecv[cyan][red]) * intensity) >> 8;
+        
+        CRY16ToRGB32[i] = 0x000000FF | (r << 24) | (g << 16) | (b << 8);
+        MIX16ToRGB32[i] = (i & 0x01 ? RGB16ToRGB32[i] : CRY16ToRGB32[i]);
+    }
+}
+
+-(void)executeHalfLine
 {
     // Do stuff!
     
@@ -43,12 +77,12 @@ const NSUInteger LBUF_bytesPerRow = LBUF_bytesPerPixel * 320;
     if(halfline & 0x01)
         return; // odd half-line
     
-    printf("Tom half-line (VC %d, VP %d) |", halfline, _registers->VP);
+    //printf("Tom half-line (VC %d, VP %d) |", halfline, _registers->VP);
     
     // Are we in the visible area?
     if(halfline >= visible_halfline_start && halfline <= visible_halfline_end)
     {
-        printf(" Scanline %d of visible area |", (halfline - visible_halfline_start) / 2);
+        //printf(" Scanline %d of visible area |", (halfline - visible_halfline_start) / 2);
         
         // Find the current line buffer and fill it with the background color, if flag is set.
         uint16_t *current_line_buffer = (uint16_t *)_registers->LBUF_ACTIVE;
@@ -62,6 +96,9 @@ const NSUInteger LBUF_bytesPerRow = LBUF_bytesPerPixel * 320;
                 current_line_buffer[i] = bg_color;
             }
         }
+        
+        // Run the object processor for a half-line.
+        [[self objectProcessor] executeHalfLine];
         
         // Render a scanline in the correct color mode.
         switch(_registers->VMODE & 0x6)
@@ -84,7 +121,7 @@ const NSUInteger LBUF_bytesPerRow = LBUF_bytesPerPixel * 320;
         }
     }
     
-    printf("\n");
+    //printf("\n");
 }
 
 -(UInt16)getVideoOverscanWidth
@@ -194,14 +231,18 @@ const NSUInteger LBUF_bytesPerRow = LBUF_bytesPerPixel * 320;
     // Calculate the starting pixel we're rendering at using HDB1 and PWIDTH.
     const uint16_t left_render_start = _registers->HDB1 / PWIDTH;
     const uint16_t visible_width = [self videoModePixelWidth] - left_render_start;
-    const uint8_t *ptr_line_buffer_render_start = (uint8_t *)(lineBuffer + left_render_start);
     
     JaguarScreen *screen = [[JaguarSystem sharedJaguar] Texture];
     id<MTLTexture> texture = [screen Texture];
     
-    //uint16_t rgb_buffer[LINE_BUFFER_WORD_WIDTH];
-    
-    // TODO: CRY16 -> RGB32
+    // Convert the line buffer from CRY16 to RGB32 (Metal's texture format)
+    uint16_t *wordLineBuffer = (uint16_t *)lineBuffer;
+    uint16_t rgb_buffer[LINE_BUFFER_WORD_WIDTH];
+    for(int i=0;i<LINE_BUFFER_WORD_WIDTH;i++)
+    {
+        rgb_buffer[i] = CRY16ToRGB32[wordLineBuffer[i]];
+    }
+    const uint8_t *ptr_line_buffer_render_start = (uint8_t *)(rgb_buffer + left_render_start);
     
     MTLRegion region = MTLRegionMake2D(left_render_start, visible_area_scanline, visible_width, 1);
     [texture replaceRegion:region mipmapLevel:0 withBytes:ptr_line_buffer_render_start bytesPerRow:LBUF_bytesPerRow];
