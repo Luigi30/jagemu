@@ -33,4 +33,7 @@
 /* Reads in a binary file and loads it into BootROM. */
 - (void)loadBootROM:(NSString *)path;
 
+/* Reads in a Jaguar Server executable and loads it. Sets the 68K PC to the start address. */
+- (void)loadJaguarServerExecutable:(NSString *)path;
+
 @end

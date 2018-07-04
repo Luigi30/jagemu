@@ -68,6 +68,7 @@ Boolean frame_is_complete;
     frame_is_complete = false;
     
     printf("One half-line is %f uS\n", USEC_PER_HALFLINE);
+    printf("Executing frame from CPU PC %06X\n", m68k_get_reg(nil, M68K_REG_PC));
     
     do
     {

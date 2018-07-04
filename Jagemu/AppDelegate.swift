@@ -32,8 +32,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         /* all righty, let's load us a BIOS */
         jaguar!.memory.loadBootROM("/Users/luigi/Documents/Xcode Projects/Jagemu/[BIOS] Atari Jaguar (World).j64")
-        print(jaguar!.memory.bootROM[0xE00010])
-        print(cpu_read_byte(0xE00010))
+        jaguar!.memory.loadJaguarServerExecutable("/Users/luigi/jaguar/testjag/testjag.jag");
+        
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

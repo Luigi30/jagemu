@@ -8,7 +8,8 @@
 
 /* The Jaguar object processor.
  *
- * See the Software Reference manual for details on the objects and their structures.
+ * See the Software Reference manual (chapter 3 of the Jaguar developer manuals)
+ * for details on the objects and their structures.
  *
  * The object processor's job is to traverse a linked list of graphics objects,
  * determine which ones are to be drawn on this scanline, and draw them to the

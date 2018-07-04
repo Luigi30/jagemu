@@ -30,6 +30,7 @@
 		2AE651E920E8209B00380482 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651E820E8209B00380482 /* Shaders.metal */; };
 		2AE651EB20E8213E00380482 /* JaguarWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651EA20E8213E00380482 /* JaguarWindow.swift */; };
 		2AE651EE20E85CD600380482 /* JaguarScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651ED20E85CD600380482 /* JaguarScreen.m */; };
+		2AEF8DC520EC2482005FC83C /* JaguarOPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AEF8DC420EC2482005FC83C /* JaguarOPObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,8 @@
 		2AE651EA20E8213E00380482 /* JaguarWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JaguarWindow.swift; sourceTree = "<group>"; };
 		2AE651EC20E85CD600380482 /* JaguarScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarScreen.h; sourceTree = "<group>"; };
 		2AE651ED20E85CD600380482 /* JaguarScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarScreen.m; sourceTree = "<group>"; };
+		2AEF8DC320EC2482005FC83C /* JaguarOPObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarOPObject.h; sourceTree = "<group>"; };
+		2AEF8DC420EC2482005FC83C /* JaguarOPObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarOPObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +161,7 @@
 		2A57FF6720E4949B00E8A68E /* Tom */ = {
 			isa = PBXGroup;
 			children = (
+				2AEF8DC120EC1D61005FC83C /* OPObjects */,
 				2ADEA55D20E74AB0005F453C /* JaguarObjectProcessor.h */,
 				2ADEA55E20E74AB0005F453C /* JaguarObjectProcessor.m */,
 				2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */,
@@ -194,6 +198,15 @@
 				2AE651ED20E85CD600380482 /* JaguarScreen.m */,
 			);
 			name = Frontend;
+			sourceTree = "<group>";
+		};
+		2AEF8DC120EC1D61005FC83C /* OPObjects */ = {
+			isa = PBXGroup;
+			children = (
+				2AEF8DC320EC2482005FC83C /* JaguarOPObject.h */,
+				2AEF8DC420EC2482005FC83C /* JaguarOPObject.m */,
+			);
+			path = OPObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +297,7 @@
 				2A203E8420E373B600F77151 /* m68kdasm.c in Sources */,
 				2AE651E720E81E4000380482 /* Debugger68KWindowController.swift in Sources */,
 				2A203E8220E373B600F77151 /* m68kops.c in Sources */,
+				2AEF8DC520EC2482005FC83C /* JaguarOPObject.m in Sources */,
 				2A3D44E920E96B3000291CCD /* SyncTimer.m in Sources */,
 				2ADF7C8220E465CF00F242A9 /* JaguarSystem.m in Sources */,
 				2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */,

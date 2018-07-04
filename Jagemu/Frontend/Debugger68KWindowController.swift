@@ -111,6 +111,9 @@ class Debugger68KWindowController: NSWindowController {
         
         disassembleFromAddress(address: address)
     }
+    @IBAction func break68KButton(_ sender: Any) {
+        updateRegisterDisplays()
+    }
 }
 
 /*****/
