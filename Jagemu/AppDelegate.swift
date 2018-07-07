@@ -30,9 +30,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         m68k_pulse_reset()
         cpu_pulse_reset();
         
-        /* all righty, let's load us a BIOS */
+        /* all righty, let's load us a BIOS and a cartridge */
         jaguar!.memory.loadBootROM("/Users/luigi/Documents/Xcode Projects/Jagemu/[BIOS] Atari Jaguar (World).j64")
-        jaguar!.memory.loadJaguarServerExecutable("/Users/luigi/jaguar/testjag/testjag.jag");
+        jaguar!.memory.loadJaguarServerExecutable("/Users/luigi/jaguar/testjag/testjag.jag")
+        jaguar!.enableDebug() // halt on load
         
     }
 

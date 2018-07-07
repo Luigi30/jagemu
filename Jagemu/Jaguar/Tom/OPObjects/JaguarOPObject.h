@@ -70,10 +70,18 @@ typedef enum op_object_t {
 
 /***/
 
+typedef enum op_condition_code_t {
+    OP_YPOS_EQ_VC = 0,
+    OP_YPOS_GT_VC = 1,
+    OP_YPOS_LT_VC = 2,
+    OP_FLAG_IS_SET = 3,
+    OP_SECOND_HALF_OF_SCANLINE = 4
+} OP_CONDITION_CODE;
+
 @interface JaguarOPObjectBranch : JaguarOPObject
 
 @property uint16_t ypos;
-@property uint8_t cc;
+@property OP_CONDITION_CODE cc;
 @property uint32_t link;
 
 -(instancetype)initWith:(uint64_t)phrase;

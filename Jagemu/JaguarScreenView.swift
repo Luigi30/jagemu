@@ -47,31 +47,35 @@ class JaguarScreenView: MTKView {
     override func draw(_ dirtyRect: CGRect)
     {
         
-        // The Jaguar processes in terms of NTSC fields, which are interlaced.
-        (JaguarSystem.sharedJaguar() as! JaguarSystem).performFrame()
-        
-        if let drawable = currentDrawable {
-            if let pass_descriptor = currentRenderPassDescriptor {
-                let jag_texture = (JaguarSystem.sharedJaguar() as! JaguarSystem).texture.texture
-                
-                pass_descriptor.colorAttachments[0].texture = drawable.texture
-                pass_descriptor.colorAttachments[0].storeAction = .store
-                pass_descriptor.colorAttachments[0].loadAction = .clear
-                pass_descriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
-                
-                // Next, we create the command buffer, queue, and encoder. These objects together
-                // encapsulate the actual submission of graphics commands to the GPU.
-                let command_queue = device!.makeCommandQueue()
-                let command_buffer = command_queue!.makeCommandBuffer()
-                let encoder = command_buffer!.makeRenderCommandEncoder(descriptor: pass_descriptor)
-                
-                encoder?.setRenderPipelineState(renderPipelineState)
-                encoder?.setFragmentTexture(jag_texture, index: 0)
-                encoder?.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
-                encoder?.endEncoding()
-                
-                command_buffer?.present(drawable)
-                command_buffer?.commit()
+        // Don't draw if we're in the debugger.
+        if((JaguarSystem.sharedJaguar() as! JaguarSystem).getDebugState() == false)
+        {
+            // Perform a frame.
+            (JaguarSystem.sharedJaguar() as! JaguarSystem).performFrame()
+            
+            if let drawable = currentDrawable {
+                if let pass_descriptor = currentRenderPassDescriptor {
+                    let jag_texture = (JaguarSystem.sharedJaguar() as! JaguarSystem).texture.texture
+                    
+                    pass_descriptor.colorAttachments[0].texture = drawable.texture
+                    pass_descriptor.colorAttachments[0].storeAction = .store
+                    pass_descriptor.colorAttachments[0].loadAction = .clear
+                    pass_descriptor.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
+                    
+                    // Next, we create the command buffer, queue, and encoder. These objects together
+                    // encapsulate the actual submission of graphics commands to the GPU.
+                    let command_queue = device!.makeCommandQueue()
+                    let command_buffer = command_queue!.makeCommandBuffer()
+                    let encoder = command_buffer!.makeRenderCommandEncoder(descriptor: pass_descriptor)
+                    
+                    encoder?.setRenderPipelineState(renderPipelineState)
+                    encoder?.setFragmentTexture(jag_texture, index: 0)
+                    encoder?.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4, instanceCount: 1)
+                    encoder?.endEncoding()
+                    
+                    command_buffer?.present(drawable)
+                    command_buffer?.commit()
+                }
             }
         }
     }

@@ -31,6 +31,7 @@
 		2AE651EB20E8213E00380482 /* JaguarWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651EA20E8213E00380482 /* JaguarWindow.swift */; };
 		2AE651EE20E85CD600380482 /* JaguarScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE651ED20E85CD600380482 /* JaguarScreen.m */; };
 		2AEF8DC520EC2482005FC83C /* JaguarOPObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AEF8DC420EC2482005FC83C /* JaguarOPObject.m */; };
+		2AEF8DC820F06AA7005FC83C /* JaguarTom+RegisterLookup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AEF8DC720F06AA7005FC83C /* JaguarTom+RegisterLookup.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,8 @@
 		2AE651ED20E85CD600380482 /* JaguarScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarScreen.m; sourceTree = "<group>"; };
 		2AEF8DC320EC2482005FC83C /* JaguarOPObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarOPObject.h; sourceTree = "<group>"; };
 		2AEF8DC420EC2482005FC83C /* JaguarOPObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarOPObject.m; sourceTree = "<group>"; };
+		2AEF8DC620F06AA7005FC83C /* JaguarTom+RegisterLookup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JaguarTom+RegisterLookup.h"; sourceTree = "<group>"; };
+		2AEF8DC720F06AA7005FC83C /* JaguarTom+RegisterLookup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JaguarTom+RegisterLookup.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +169,8 @@
 				2ADEA55E20E74AB0005F453C /* JaguarObjectProcessor.m */,
 				2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */,
 				2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */,
+				2AEF8DC620F06AA7005FC83C /* JaguarTom+RegisterLookup.h */,
+				2AEF8DC720F06AA7005FC83C /* JaguarTom+RegisterLookup.m */,
 				2ADEA56020E74CDF005F453C /* JaguarTomRegisters.h */,
 				2A0FE2C420EB199700CBDC40 /* cry2rgb.h */,
 			);
@@ -296,6 +301,7 @@
 				2A203E8020E373B600F77151 /* m68kopnz.c in Sources */,
 				2A203E8420E373B600F77151 /* m68kdasm.c in Sources */,
 				2AE651E720E81E4000380482 /* Debugger68KWindowController.swift in Sources */,
+				2AEF8DC820F06AA7005FC83C /* JaguarTom+RegisterLookup.m in Sources */,
 				2A203E8220E373B600F77151 /* m68kops.c in Sources */,
 				2AEF8DC520EC2482005FC83C /* JaguarOPObject.m in Sources */,
 				2A3D44E920E96B3000291CCD /* SyncTimer.m in Sources */,

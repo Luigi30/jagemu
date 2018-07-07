@@ -48,6 +48,7 @@ class Debugger68KWindowController: NSWindowController {
 
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
         setupTableView()
+        updateRegisterDisplays()
     }
     
     func setupTableView() {
@@ -88,7 +89,7 @@ class Debugger68KWindowController: NSWindowController {
         var size: UInt32 = 0
         var curpc: UInt32 = address
         
-        for _ in 0..<50
+        for _ in 0..<200
         {
             size = m68k_disassemble(&msgBuf, curpc, UInt32(M68K_CPU_TYPE_68000))
             disassembledInstructions.append(Instruction68K(address: curpc, size: size, disassembly: String.init(cString: msgBuf)))
@@ -99,7 +100,12 @@ class Debugger68KWindowController: NSWindowController {
     }
     
     @IBAction func runJaguarButton(_ sender: Any) {
-        jaguar.runJag(forCycles: 100)
+        jaguar.disableDebug()
+        updateRegisterDisplays()
+    }
+    
+    @IBAction func stepJaguarButton(_ sender: Any) {
+        m68k_execute(1);
         updateRegisterDisplays()
     }
     
@@ -112,6 +118,7 @@ class Debugger68KWindowController: NSWindowController {
         disassembleFromAddress(address: address)
     }
     @IBAction func break68KButton(_ sender: Any) {
+        jaguar.enableDebug()
         updateRegisterDisplays()
     }
 }

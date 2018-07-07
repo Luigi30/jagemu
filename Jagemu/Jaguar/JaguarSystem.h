@@ -22,6 +22,7 @@
 #import "JaguarSyncTimers.h"
 
 #import "Tom/JaguarTom.h"
+#import "Tom/JaguarTom+RegisterLookup.h"
 #import "Tom/JaguarTomRegisters.h"
 
 #import "m68k.h"
@@ -54,8 +55,12 @@
 
 // Execution methods.
 - (void)performFrame;
-//- (void)performHalfLine;
 - (void)CALLBACK_halfLine;
+
+/* Debug on/off */
+-(Boolean)getDebugState;
+-(void)enableDebug;
+-(void)disableDebug;
 
 @end
 

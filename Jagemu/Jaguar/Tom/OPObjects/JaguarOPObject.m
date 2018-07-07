@@ -59,8 +59,8 @@
     self.object_type = JAGOP_SCALED;
     
     self.hscale = phrase3 & 0xFF;
-    self.vscale = (phrase3 >> 8) & 0xFF;
-    self.remainder = (phrase3 >> 16) & 0xFF;    
+    self.vscale = (phrase3 >> 9) & 0xFF;
+    self.remainder = (phrase3 >> 17) & 0xFF;
     
     return self;
 }
@@ -74,7 +74,7 @@
     self = [super init];
     
     self.object_type = JAGOP_GPU;
-    self.data = (phrase >> 3);
+    self.data = (phrase >> 4);
     
     return self;
 }
@@ -106,8 +106,9 @@
 {
     self = [super init];
     
-    self.object_type = JAGOP_BITMAP;
-    self.data = phrase >> 4;
+    self.object_type = JAGOP_STOP;
+    self.cpu_interrupt_flag = (phrase >> 4) & 1;
+    self.data = phrase >> 5;
     
     return self;
 }

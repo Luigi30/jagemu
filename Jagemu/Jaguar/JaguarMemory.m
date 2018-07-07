@@ -55,7 +55,7 @@
     
     // Grab the download address...
     uint32_t download_address = rom[0x25] << 0 | rom[0x24] << 8 | rom[0x23] << 16 | rom[0x22] << 24;
-    uint32_t program_length = rom[0x29] << 0 | rom[0x28] << 8 | rom[0x27] << 16 | rom[0x26] << 24;
+    //uint32_t program_length = rom[0x29] << 0 | rom[0x28] << 8 | rom[0x27] << 16 | rom[0x26] << 24;
     uint32_t entry_point = rom[0x2D] << 0 | rom[0x2C] << 8 | rom[0x2B] << 16 | rom[0x2A] << 24;
     
     memcpy(_WorkRAM+download_address, rom+0x2E, length-46);

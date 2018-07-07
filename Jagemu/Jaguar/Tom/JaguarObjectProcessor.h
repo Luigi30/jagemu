@@ -39,6 +39,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "JaguarOPObject.h"
 #import "JaguarDefines.h"
 
 @interface JaguarObjectProcessor : NSObject
@@ -50,5 +51,13 @@
 
 -(instancetype)init:(struct tom_registers_t *)registers;
 -(void)executeHalfLine;
+
+-(JaguarOPObject *) parseOPObject:(uint8_t *)op_object;
+
+-(uint32_t)performBitmapObject:(JaguarOPObjectBitmap *)op_object currentOP:(uint32_t)current;
+-(uint32_t)performScaledObject:(JaguarOPObjectScaled *)op_object currentOP:(uint32_t)current;
+-(uint32_t)performGPUObject:(JaguarOPObjectGPU *)op_object currentOP:(uint32_t)current;
+-(uint32_t)performBranchObject:(JaguarOPObjectBranch *)op_object currentOP:(uint32_t)current;
+-(uint32_t)performStopObject:(JaguarOPObjectStop *)op_object currentOP:(uint32_t)current;
 
 @end

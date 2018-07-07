@@ -57,7 +57,20 @@
 }
 
 /* Execution functions. */
+Boolean debug_break;
+-(Boolean)getDebugState
+{
+    return debug_break;
+}
 
+-(void)enableDebug
+{
+    debug_break = true;
+}
+-(void)disableDebug
+{
+    debug_break = false;
+}
 
 Boolean frame_is_complete;
 - (void)performFrame
@@ -79,9 +92,10 @@ Boolean frame_is_complete;
         
         m68k_execute(USEC_TO_M68K_CLOCKS(microseconds));
         
-        [[self Timers] performNextTimer];
+        if(!debug_break) // Don't update the screen if we are debugging.
+            [[self Timers] performNextTimer];
     }
-    while (!frame_is_complete);
+    while (!frame_is_complete && !debug_break);
     
     printf("Frame complete\n");
       
@@ -128,12 +142,18 @@ int cpu_irq_ack(int level)
 void cpu_pulse_reset(void)
 {
     [[[JaguarSystem sharedJaguar] Tom] reset];
+    
+    // OP debugging. Swap endianness of OLP.
+    [[[JaguarSystem sharedJaguar] Tom] registers]->OLP = (0x1DC0 << 16) | 0x0002;
 }
 
 /* Called before each instruction, if configured so. */
 void cpu_instr_callback(void)
 {
-    
+    if(debug_break)
+    {
+        m68k_modify_timeslice(0); // end this timeslice immediately
+    }
 }
 
 uint8_t fc;
@@ -165,6 +185,12 @@ unsigned int cpu_read_word(unsigned int address)
         return ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000] << 8) | ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+1]);
     else if(address >= 0xE00000 && address < 0xE20000)
         return ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000] << 8) | ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+1]);
+    
+    /* TOM */
+    else if(address >= 0xF00000 && address < 0xF00100)
+        return ([[JaguarSystem.sharedJaguar Tom] getRegisterWordByOffset:(address - 0xF00000)]);
+    else if(address >= 0xF00400 && address < 0xF00800)
+        return ([[JaguarSystem.sharedJaguar Tom] getClutWordByOffset:(address - 0xF00000)]);
     else return 0;
 }
 
@@ -196,6 +222,12 @@ unsigned int cpu_read_word_dasm(unsigned int address)
         return ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000] << 8) | ([JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000+1]);
     else if(address >= 0xE00000 && address < 0xE20000)
         return ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000] << 8) | ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+1]);
+    
+    /* TOM */
+    else if(address >= 0xF00000 && address < 0xF00100)
+        return ([[JaguarSystem.sharedJaguar Tom] getRegisterWordByOffset:(address - 0xF00000)]);
+    else if(address >= 0xF00400 && address < 0xF00800)
+        return ([[JaguarSystem.sharedJaguar Tom] getClutWordByOffset:(address - 0xF00000)]);
     else return 0;
 }
 
@@ -230,6 +262,10 @@ void cpu_write_byte(unsigned int address, unsigned int value)
         wrote_to_rom(address, value);
     else if(address >= 0xE00000 && address < 0xE20000)
         wrote_to_rom(address, value);
+    
+    /* TOM */
+    else if(address <= 0xF00000 && address < 0xF00100)
+        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFF)];
 }
 
 void cpu_write_word(unsigned int address, unsigned int value)
@@ -243,6 +279,10 @@ void cpu_write_word(unsigned int address, unsigned int value)
         wrote_to_rom(address, value);
     else if(address >= 0xE00000 && address < 0xE20000)
         wrote_to_rom(address, value);
+    
+    /* TOM */
+    else if(address <= 0xF00000 && address < 0xF00100)
+        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFFFF)];
 }
 
 void cpu_write_long(unsigned int address, unsigned int value)
@@ -258,6 +298,10 @@ void cpu_write_long(unsigned int address, unsigned int value)
         wrote_to_rom(address, value);
     else if(address >= 0xE00000 && address < 0xE20000)
         wrote_to_rom(address, value);
+    
+    /* TOM */
+    else if(address <= 0xF00000 && address < 0xF00100)
+        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value)];
 }
 /*
  * To simulate real 68k behavior, first write the high word to
@@ -276,6 +320,10 @@ void cpu_write_long_pd(unsigned int address, unsigned int value)
         wrote_to_rom(address, value);
     else if(address >= 0xE00000 && address < 0xE20000)
         wrote_to_rom(address, value);
+    
+    /* TODO: TOM */
+    else if(address <= 0xF00000 && address < 0xF00100)
+        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value)];
 }
 
 void wrote_to_rom(unsigned int address, unsigned int value)
