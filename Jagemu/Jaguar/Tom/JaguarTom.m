@@ -36,6 +36,10 @@ uint32_t RGB16ToRGB32[0x10000];
 uint32_t CRY16ToRGB32[0x10000];
 uint32_t MIX16ToRGB32[0x10000];
 
+uint32_t RGB16ToBGR32[0x10000];
+uint32_t CRY16ToBGR32[0x10000];
+uint32_t MIX16ToBGR32[0x10000];
+
 // Straight from VJ 2.1. This isn't endian-safe.
 -(void)fillColorLookupTables
 {
@@ -59,6 +63,8 @@ uint32_t MIX16ToRGB32[0x10000];
         
         CRY16ToRGB32[i] = 0x000000FF | (r << 24) | (g << 16) | (b << 8);
         MIX16ToRGB32[i] = (i & 0x01 ? RGB16ToRGB32[i] : CRY16ToRGB32[i]);
+        
+        CRY16ToBGR32[i] = 0x000000FF | (r << 8) | (g << 16) | (b << 24);
     }
 }
 
@@ -86,6 +92,10 @@ uint32_t MIX16ToRGB32[0x10000];
         
         // Find the current line buffer and fill it with the background color, if flag is set.
         uint16_t *current_line_buffer = (uint16_t *)_registers->LBUF_ACTIVE;
+        for(int i=0; i < LINE_BUFFER_LONG_WIDTH; i++)
+        {
+            _registers->LBUF_ACTIVE[i] = 0x00000000;
+        }
         
         if(_registers->VMODE & 0x80) // BGEN bit
         {
@@ -93,32 +103,12 @@ uint32_t MIX16ToRGB32[0x10000];
             uint16_t bg_color = _registers->BG;
             for(int i=0; i<LINE_BUFFER_WORD_WIDTH; i++)
             {
-                current_line_buffer[i] = bg_color;
+                //current_line_buffer[i] = bg_color;
             }
         }
         
         // Run the object processor for a half-line.
         [[self objectProcessor] executeHalfLine];
-        
-        // Render a scanline in the correct color mode.
-        switch(_registers->VMODE & 0x6)
-        {
-            case 0x00:
-                [self renderLineCRY16:(_registers->LBUF_ACTIVE)];
-                break;
-            case 0x02:
-                printf(" RGB24 mode not yet supported");
-                break;
-            case 0x04:
-                printf(" DIRECT16 mode not yet supported");
-                break;
-            case 0x06:
-                printf(" RGB16 mode not yet supported");
-                break;
-            default:
-                printf(" Invalid video mode ");
-                break;
-        }
     }
     
     //printf("\n");
@@ -202,7 +192,7 @@ uint32_t MIX16ToRGB32[0x10000];
     _registers->HDE = 1665;
     
     // TEST
-    _registers->BG = 0xFFFF;
+    //_registers->BG = 0xFFFF;
 }
 
 /*
@@ -237,10 +227,25 @@ uint32_t MIX16ToRGB32[0x10000];
     
     // Convert the line buffer from CRY16 to RGB32 (Metal's texture format)
     uint16_t *wordLineBuffer = (uint16_t *)lineBuffer;
-    uint16_t rgb_buffer[LINE_BUFFER_WORD_WIDTH];
+    uint32_t rgb_buffer[LINE_BUFFER_WORD_WIDTH];
     for(int i=0;i<LINE_BUFFER_WORD_WIDTH;i++)
     {
-        rgb_buffer[i] = CRY16ToRGB32[wordLineBuffer[i]];
+        if(wordLineBuffer[i] != 0x0000)
+        {
+            uint8_t red     = redcv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8];
+            uint8_t green   = greencv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8];
+            uint8_t blue    = bluecv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8];
+            
+            //uint32_t rgb = blue | green << 8 | red << 16 | 0xFF000000;
+            uint32_t rgb = red | green << 8 | blue << 16 | 0xFF000000;
+            
+            rgb_buffer[i] = rgb;
+        }
+        else
+        {
+            rgb_buffer[i] = 0xFF000000;
+        }
+        
     }
     const uint8_t *ptr_line_buffer_render_start = (uint8_t *)(rgb_buffer + left_render_start);
     

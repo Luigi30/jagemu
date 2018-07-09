@@ -10,14 +10,16 @@
 		2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E5620E36EE200F77151 /* AppDelegate.swift */; };
 		2A203E5920E36EE400F77151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A203E5820E36EE400F77151 /* Assets.xcassets */; };
 		2A203E5C20E36EE400F77151 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A203E5A20E36EE400F77151 /* MainMenu.xib */; };
-		2A203E7D20E373B600F77151 /* m68kopac.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7120E373B500F77151 /* m68kopac.c */; };
-		2A203E7F20E373B600F77151 /* m68kcpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7520E373B600F77151 /* m68kcpu.c */; };
-		2A203E8020E373B600F77151 /* m68kopnz.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7620E373B600F77151 /* m68kopnz.c */; };
-		2A203E8120E373B600F77151 /* m68kopdm.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7720E373B600F77151 /* m68kopdm.c */; };
+		2A203E7D20E373B600F77151 /* m68kopac.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7120E373B500F77151 /* m68kopac.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		2A203E7F20E373B600F77151 /* m68kcpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7520E373B600F77151 /* m68kcpu.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		2A203E8020E373B600F77151 /* m68kopnz.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7620E373B600F77151 /* m68kopnz.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		2A203E8120E373B600F77151 /* m68kopdm.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7720E373B600F77151 /* m68kopdm.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		2A203E8220E373B600F77151 /* m68kops.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7920E373B600F77151 /* m68kops.c */; };
-		2A203E8420E373B600F77151 /* m68kdasm.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7C20E373B600F77151 /* m68kdasm.c */; };
+		2A203E8420E373B600F77151 /* m68kdasm.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E7C20E373B600F77151 /* m68kdasm.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		2A3C7C8D20F16ABD00798D8B /* Debugger68KConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C7C8C20F16ABD00798D8B /* Debugger68KConsole.swift */; };
 		2A3D44E520E96AC300291CCD /* JaguarSyncTimers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D44E420E96AC300291CCD /* JaguarSyncTimers.m */; };
 		2A3D44E920E96B3000291CCD /* SyncTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D44E820E96B3000291CCD /* SyncTimer.m */; };
+		2A47E89120F1964400036128 /* MathHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A47E89020F1964400036128 /* MathHelper.m */; };
 		2ADEA55C20E600E7005F453C /* DebuggerMaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADEA55B20E600E7005F453C /* DebuggerMaster.swift */; };
 		2ADEA55F20E74AB0005F453C /* JaguarObjectProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADEA55E20E74AB0005F453C /* JaguarObjectProcessor.m */; };
 		2ADEA56120E74CDF005F453C /* JaguarTomRegisters.h in Sources */ = {isa = PBXBuildFile; fileRef = 2ADEA56020E74CDF005F453C /* JaguarTomRegisters.h */; };
@@ -52,10 +54,13 @@
 		2A203E7920E373B600F77151 /* m68kops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kops.c; sourceTree = "<group>"; };
 		2A203E7A20E373B600F77151 /* m68k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68k.h; sourceTree = "<group>"; };
 		2A203E7C20E373B600F77151 /* m68kdasm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kdasm.c; sourceTree = "<group>"; };
+		2A3C7C8C20F16ABD00798D8B /* Debugger68KConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debugger68KConsole.swift; sourceTree = "<group>"; };
 		2A3D44E320E96AC300291CCD /* JaguarSyncTimers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarSyncTimers.h; sourceTree = "<group>"; };
 		2A3D44E420E96AC300291CCD /* JaguarSyncTimers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarSyncTimers.m; sourceTree = "<group>"; };
 		2A3D44E720E96B3000291CCD /* SyncTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncTimer.h; sourceTree = "<group>"; };
 		2A3D44E820E96B3000291CCD /* SyncTimer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SyncTimer.m; sourceTree = "<group>"; };
+		2A47E88F20F1964400036128 /* MathHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MathHelper.h; path = "Jagemu/New Group/MathHelper.h"; sourceTree = SOURCE_ROOT; };
+		2A47E89020F1964400036128 /* MathHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MathHelper.m; path = "Jagemu/New Group/MathHelper.m"; sourceTree = SOURCE_ROOT; };
 		2A57FF6620E46E8900E8A68E /* Jagemu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Jagemu-Bridging-Header.h"; sourceTree = "<group>"; };
 		2ADEA55B20E600E7005F453C /* DebuggerMaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DebuggerMaster.swift; path = Jagemu/Jaguar/DebuggerMaster.swift; sourceTree = SOURCE_ROOT; };
 		2ADEA55D20E74AB0005F453C /* JaguarObjectProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarObjectProcessor.h; sourceTree = "<group>"; };
@@ -111,6 +116,7 @@
 		2A203E5520E36EE200F77151 /* Jagemu */ = {
 			isa = PBXGroup;
 			children = (
+				2A47E89220F1964A00036128 /* Math */,
 				2AE651E320E81E3100380482 /* Frontend */,
 				2A57FF6620E46E8900E8A68E /* Jagemu-Bridging-Header.h */,
 				2ADF7C7C20E462D600F242A9 /* Jaguar */,
@@ -161,6 +167,16 @@
 			path = Synchronization;
 			sourceTree = "<group>";
 		};
+		2A47E89220F1964A00036128 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				2A47E88F20F1964400036128 /* MathHelper.h */,
+				2A47E89020F1964400036128 /* MathHelper.m */,
+			);
+			name = Math;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		2A57FF6720E4949B00E8A68E /* Tom */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +217,7 @@
 				2AE651EA20E8213E00380482 /* JaguarWindow.swift */,
 				2AE651EC20E85CD600380482 /* JaguarScreen.h */,
 				2AE651ED20E85CD600380482 /* JaguarScreen.m */,
+				2A3C7C8C20F16ABD00798D8B /* Debugger68KConsole.swift */,
 			);
 			name = Frontend;
 			sourceTree = "<group>";
@@ -296,12 +313,14 @@
 				2ADF7C7F20E462EB00F242A9 /* JaguarTom.m in Sources */,
 				2AE651EE20E85CD600380482 /* JaguarScreen.m in Sources */,
 				2A203E8120E373B600F77151 /* m68kopdm.c in Sources */,
+				2A3C7C8D20F16ABD00798D8B /* Debugger68KConsole.swift in Sources */,
 				2A203E7D20E373B600F77151 /* m68kopac.c in Sources */,
 				2AE651E920E8209B00380482 /* Shaders.metal in Sources */,
 				2A203E8020E373B600F77151 /* m68kopnz.c in Sources */,
 				2A203E8420E373B600F77151 /* m68kdasm.c in Sources */,
 				2AE651E720E81E4000380482 /* Debugger68KWindowController.swift in Sources */,
 				2AEF8DC820F06AA7005FC83C /* JaguarTom+RegisterLookup.m in Sources */,
+				2A47E89120F1964400036128 /* MathHelper.m in Sources */,
 				2A203E8220E373B600F77151 /* m68kops.c in Sources */,
 				2AEF8DC520EC2482005FC83C /* JaguarOPObject.m in Sources */,
 				2A3D44E920E96B3000291CCD /* SyncTimer.m in Sources */,

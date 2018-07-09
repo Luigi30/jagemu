@@ -42,6 +42,8 @@
 #import "JaguarOPObject.h"
 #import "JaguarDefines.h"
 
+#import "MathHelper.h"
+
 @interface JaguarObjectProcessor : NSObject
 {
     struct tom_registers_t *_registers;

@@ -49,8 +49,6 @@
 
 - (instancetype) init;
 
-- (void)loadJaguarServerExecutable:(NSString *)path;
-
 - (void)runJagForCycles:(UInt32)cycles;
 
 // Execution methods.

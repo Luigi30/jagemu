@@ -26,8 +26,8 @@
     
     self.object_type = JAGOP_BITMAP;
     
-    self.ypos       = (phrase1 >> 3) & 0x7FF;
-    self.height     = (phrase1 >> 14) & 0x3FF;
+    self.ypos       = (phrase1 >> 3) & 0x3FF;
+    self.height     = (phrase1 >> 14) & 0x7FF;
     self.link       = (phrase1 >> 24) & 0x7FFFF;
     self.data       = (phrase1 >> 43) & 0x1FFFFF;
     

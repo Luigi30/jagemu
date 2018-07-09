@@ -15,7 +15,8 @@
 -(instancetype)initWith:(id<MTLDevice>)device
 {    
     MTLTextureDescriptor *desc = [[MTLTextureDescriptor alloc] init];
-    desc.pixelFormat = MTLPixelFormatBGRA8Unorm;
+    //desc.pixelFormat = MTLPixelFormatBGRA8Unorm;
+    desc.pixelFormat = MTLPixelFormatRGBA8Uint;
     desc.width = 320;
     desc.height = 256;
     desc.usage = MTLTextureUsageShaderRead | MTLTextureUsageRenderTarget;

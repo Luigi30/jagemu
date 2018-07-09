@@ -35,8 +35,12 @@ class Debugger68KWindowController: NSWindowController {
     
     @IBOutlet weak var disasmAddressField: NSTextField!
     
+    @IBOutlet weak var debugConsoleInput: NSTextField!
+    @IBOutlet var debugConsoleOutput: NSTextView!
+    
     let jaguar: JaguarSystem = JaguarSystem.sharedJaguar() as! JaguarSystem
     var disassembledInstructions: [Instruction68K] = []
+    let debuggerConsole = Debugger68KConsole()
     
     override var windowNibName: NSNib.Name?
     {
@@ -49,6 +53,8 @@ class Debugger68KWindowController: NSWindowController {
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
         setupTableView()
         updateRegisterDisplays()
+        
+        //debugConsoleOutput.string.append("Jaguar 68K Debugger is ready\n")
     }
     
     func setupTableView() {
@@ -120,6 +126,18 @@ class Debugger68KWindowController: NSWindowController {
     @IBAction func break68KButton(_ sender: Any) {
         jaguar.enableDebug()
         updateRegisterDisplays()
+    }
+    @IBAction func debugConsoleInputEnter(_ sender: Any) {
+        if(debugConsoleInput.stringValue != "")
+        {
+            debugConsoleOutput.textStorage?.append(NSAttributedString(string: String.init(format: "> %@\n", debugConsoleInput.stringValue)))
+            
+            let response = self.debuggerConsole.processCommand(commandString: debugConsoleInput.stringValue)
+            debugConsoleOutput.textStorage?.append(NSAttributedString(string: String.init(format: "%@\n", response)))
+            debugConsoleOutput.scrollToEndOfDocument(nil)
+            
+            debugConsoleInput.stringValue = ""
+        }
     }
 }
 

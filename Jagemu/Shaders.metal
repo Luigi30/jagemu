@@ -34,9 +34,25 @@ vertex TextureMappingVertex mapTexture(unsigned int vertex_id [[ vertex_id ]]) {
     return outVertex;
 }
 
+/*
 fragment half4 displayTexture(TextureMappingVertex mappingVertex [[ stage_in ]],
                               texture2d<float, access::sample> texture [[ texture(0) ]]) {
     constexpr sampler s(address::clamp_to_edge, filter::linear);
     
-    return half4(texture.sample(s, mappingVertex.textureCoordinate));
+    float4 color = texture.sample(s, mappingVertex.textureCoordinate);
+    
+    return half4(color);
 }
+*/
+
+fragment half4 displayTexture(TextureMappingVertex mappingVertex [[ stage_in ]],
+//                              texture2d<float, access::sample> texture [[ texture(0) ]]) {
+                              texture2d<uint, access::sample> texture [[ texture(0) ]]) {
+    constexpr sampler s(address::clamp_to_edge, filter::linear);
+    
+    //float4 color = texture.sample(s, mappingVertex.textureCoordinate);
+    uint4 color = texture.sample(s, mappingVertex.textureCoordinate);
+    
+    return half4(float4( color.r * (1/255.0), color.g * (1 / 255.0), color.b * (1 / 255.0), 1.0) );
+}
+

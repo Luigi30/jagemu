@@ -10,6 +10,8 @@
 
 #import "Jagemu-Swift.h"
 
+Boolean debug_break; // Ugly but C and Obj-C both need to see this.
+
 @implementation JaguarSystem
 
 @synthesize Memory = _Memory;
@@ -57,7 +59,6 @@
 }
 
 /* Execution functions. */
-Boolean debug_break;
 -(Boolean)getDebugState
 {
     return debug_break;
@@ -150,7 +151,7 @@ void cpu_pulse_reset(void)
 /* Called before each instruction, if configured so. */
 void cpu_instr_callback(void)
 {
-    if(debug_break)
+    if(debug_break == true)
     {
         m68k_modify_timeslice(0); // end this timeslice immediately
     }
@@ -264,7 +265,7 @@ void cpu_write_byte(unsigned int address, unsigned int value)
         wrote_to_rom(address, value);
     
     /* TOM */
-    else if(address <= 0xF00000 && address < 0xF00100)
+    else if(address >= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFF)];
 }
 
@@ -281,7 +282,7 @@ void cpu_write_word(unsigned int address, unsigned int value)
         wrote_to_rom(address, value);
     
     /* TOM */
-    else if(address <= 0xF00000 && address < 0xF00100)
+    else if(address >= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFFFF)];
 }
 
@@ -300,7 +301,7 @@ void cpu_write_long(unsigned int address, unsigned int value)
         wrote_to_rom(address, value);
     
     /* TOM */
-    else if(address <= 0xF00000 && address < 0xF00100)
+    else if(address >= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value)];
 }
 /*
