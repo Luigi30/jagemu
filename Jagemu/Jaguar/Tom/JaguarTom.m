@@ -232,9 +232,9 @@ uint32_t MIX16ToBGR32[0x10000];
     {
         if(wordLineBuffer[i] != 0x0000)
         {
-            uint8_t red     = redcv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8];
-            uint8_t green   = greencv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8];
-            uint8_t blue    = bluecv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8];
+            uint8_t red     = (redcv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8] / 255.0) * (wordLineBuffer[i] & 0xFF);
+            uint8_t green   = (greencv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8] / 255.0) * (wordLineBuffer[i] & 0xFF);
+            uint8_t blue    = (bluecv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8] / 255.0) * (wordLineBuffer[i] & 0xFF);
             
             //uint32_t rgb = blue | green << 8 | red << 16 | 0xFF000000;
             uint32_t rgb = red | green << 8 | blue << 16 | 0xFF000000;
