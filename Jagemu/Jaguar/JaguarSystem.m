@@ -284,6 +284,8 @@ void cpu_write_word(unsigned int address, unsigned int value)
     /* TOM */
     else if(address >= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFFFF)];
+    else if(address >= 0xF00400 && address < 0xF00800)
+        [[JaguarSystem.sharedJaguar Tom] putClutWordByOffset:(address - 0xF00400) value:(value & 0xFFFF)];
 }
 
 void cpu_write_long(unsigned int address, unsigned int value)

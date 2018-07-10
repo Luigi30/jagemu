@@ -78,6 +78,15 @@ typedef enum op_condition_code_t {
     OP_SECOND_HALF_OF_SCANLINE = 4
 } OP_CONDITION_CODE;
 
+typedef enum op_pixel_depth_t {
+    OP_DEPTH_1BPP = 0,
+    OP_DEPTH_2BPP = 1,
+    OP_DEPTH_4BPP = 2,
+    OP_DEPTH_8BPP = 3,
+    OP_DEPTH_16BPP= 4,
+    OP_DEPTH_32BPP= 5
+} OP_PIXEL_DEPTH;
+
 @interface JaguarOPObjectBranch : JaguarOPObject
 
 @property uint16_t ypos;

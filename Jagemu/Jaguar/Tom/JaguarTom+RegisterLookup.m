@@ -15,9 +15,12 @@
     return _registers->CLUT[offset];
 }
 
+// Write a word to the CLUT - writes affect CLUT A and CLUT B.
 -(void)putClutWordByOffset:(uint32_t)offset value:(uint16_t)value
 {
-    _registers->CLUT[offset] = value;
+    // TODO: unaligned writes
+    _registers->CLUT[(offset >> 1) & 0xEFF] = value;
+    _registers->CLUT[(offset >> 1) | 0x100] = value;
 }
 
 /* Register functions */

@@ -88,8 +88,6 @@ uint32_t MIX16ToBGR32[0x10000];
     // Are we in the visible area?
     if(halfline >= visible_halfline_start && halfline <= visible_halfline_end)
     {
-        //printf(" Scanline %d of visible area |", (halfline - visible_halfline_start) / 2);
-        
         // Find the current line buffer and fill it with the background color, if flag is set.
         uint16_t *current_line_buffer = (uint16_t *)_registers->LBUF_ACTIVE;
         for(int i=0; i < LINE_BUFFER_LONG_WIDTH; i++)
@@ -103,7 +101,7 @@ uint32_t MIX16ToBGR32[0x10000];
             uint16_t bg_color = _registers->BG;
             for(int i=0; i<LINE_BUFFER_WORD_WIDTH; i++)
             {
-                //current_line_buffer[i] = bg_color;
+                current_line_buffer[i] = bg_color;
             }
         }
         
@@ -236,7 +234,6 @@ uint32_t MIX16ToBGR32[0x10000];
             uint8_t green   = (greencv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8] / 255.0) * (wordLineBuffer[i] & 0xFF);
             uint8_t blue    = (bluecv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8] / 255.0) * (wordLineBuffer[i] & 0xFF);
             
-            //uint32_t rgb = blue | green << 8 | red << 16 | 0xFF000000;
             uint32_t rgb = red | green << 8 | blue << 16 | 0xFF000000;
             
             rgb_buffer[i] = rgb;

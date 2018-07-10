@@ -181,35 +181,123 @@
         
         uint16_t pixel_pointer = 0;
         
+        // Handle the reflect flag which flips the bitmap horizontally.
+        // If reflected, put the pixel pointer at the end of the scanline data.
+        if(op_object.reflect)
+        {
+            switch(op_object.depth)
+            {
+                case OP_DEPTH_1BPP:
+                    pixel_pointer = pixel_width/8;
+                    break;
+                case OP_DEPTH_2BPP:
+                    pixel_pointer = pixel_width/4;
+                    break;
+                case OP_DEPTH_4BPP:
+                    pixel_pointer = pixel_width/2;
+                    break;
+                case OP_DEPTH_8BPP:
+                    pixel_pointer = pixel_width;
+                    break;
+                case OP_DEPTH_16BPP:
+                    pixel_pointer = pixel_width*2;
+                    break;
+                case OP_DEPTH_32BPP:
+                    pixel_pointer = pixel_width*4;
+                    break;
+            }
+        }
+        
         // ...render...
         switch(op_object.depth)
         {
-            case 0: // 1BPP
+            case OP_DEPTH_1BPP:
                 break;
-            case 1: // 2BPP
+            case OP_DEPTH_2BPP:
                 break;
-            case 2: // 4BPP
+            case OP_DEPTH_4BPP:
                 break;
-            case 3: // 8BPP
-                break;
-            case 4: // 16BPP
+            case OP_DEPTH_8BPP:
+                
+                // Look up the pixel color in the CLUT, then write that to the line buffer.
                 for(int i=op_object.xpos; i<op_object.xpos+pixel_width; i++)
                 {
-                    uint8_t high = *(memory.WorkRAM + (op_object.data << 3) + pixel_pointer);
-                    uint8_t low = *(memory.WorkRAM + (op_object.data << 3) + pixel_pointer + 1);
-                    
-                    if(high != 0x00 && low != 0x00)
+                    if(op_object.reflect == false)
                     {
-                        
+                        uint8_t color_index = *(memory.WorkRAM + (op_object.data << 3) + pixel_pointer);
+                        uint16_t actual_color = _registers->CLUT[color_index];
+                    
+                        lbuf_bytes[i*2] = actual_color & 0xFF;
+                        lbuf_bytes[i*2+1] = (actual_color & 0xFF00) >> 8;
+                    
+                        pixel_pointer += 1;
+                    
+                        // Every phrase, add the pitch offset to the pixel pointer.
+                        if((pixel_pointer % 8) == 0)
+                        {
+                            pixel_pointer += (op_object.pitch-1) * 8;
+                        }
                     }
-                    
-                    lbuf_bytes[i*2] = low;
-                    lbuf_bytes[i*2 + 1] = high;
-                    
-                    pixel_pointer += 2;
+                    else
+                    {
+                        uint8_t color_index = *(memory.WorkRAM + (op_object.data << 3) + pixel_pointer);
+                        uint16_t actual_color = _registers->CLUT[color_index];
+                        
+                        lbuf_bytes[i*2] = actual_color & 0xFF;
+                        lbuf_bytes[i*2+1] = (actual_color & 0xFF00) >> 8;
+                        
+                        // Advance the source data by 2 bytes per pixel.
+                        pixel_pointer -= 2;
+                        
+                        // Every phrase, add the pitch offset to the pixel pointer.
+                        if((pixel_pointer % 8) == 0)
+                        {
+                            pixel_pointer -= (op_object.pitch-1) * 8;
+                        }
+                    }
+                }
+                
+                break;
+            case OP_DEPTH_16BPP:
+                for(int i=op_object.xpos; i<op_object.xpos+pixel_width; i++)
+                {
+                    if(op_object.reflect == false)
+                    {
+                        uint8_t high = *(memory.WorkRAM + (op_object.data << 3) + pixel_pointer);
+                        uint8_t low = *(memory.WorkRAM + (op_object.data << 3) + pixel_pointer + 1);
+                        
+                        lbuf_bytes[i*2] = low;
+                        lbuf_bytes[i*2 + 1] = high;
+                        
+                        // Advance the source data by 2 bytes per pixel.
+                        pixel_pointer += 2;
+                        
+                        // Every phrase, add the pitch offset to the pixel pointer.
+                        if((pixel_pointer % 8) == 0)
+                        {
+                            pixel_pointer += (op_object.pitch-1) * 8;
+                        }
+                    }
+                    else
+                    {
+                        uint8_t high = *(memory.WorkRAM + (op_object.data << 3) + pixel_pointer);
+                        uint8_t low = *(memory.WorkRAM + (op_object.data << 3) + pixel_pointer + 1);
+                        
+                        lbuf_bytes[i*2] = low;
+                        lbuf_bytes[i*2 + 1] = high;
+                        
+                        // Advance the source data by 2 bytes per pixel.
+                        pixel_pointer -= 2;
+                        
+                        // Every phrase, add the pitch offset to the pixel pointer.
+                        if((pixel_pointer % 8) == 0)
+                        {
+                            pixel_pointer -= (op_object.pitch-1) * 8;
+                        }
+                    }
                 }
                 break;
-            case 5: // 32BPP
+            case OP_DEPTH_32BPP: // 32BPP
                 break;
         }
 
