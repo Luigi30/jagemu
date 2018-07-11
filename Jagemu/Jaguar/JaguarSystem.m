@@ -7,10 +7,10 @@
 //
 
 #import "JaguarSystem.h"
-
 #import "Jagemu-Swift.h"
 
-Boolean debug_break; // Ugly but C and Obj-C both need to see this.
+Boolean debug_break;  // Ugly but C and Obj-C both need to see this.
+JaguarSystem *sharedJaguar; // For C to avoid a bunch of dereferences every instruction.
 
 @implementation JaguarSystem
 
@@ -49,6 +49,8 @@ Boolean debug_break; // Ugly but C and Obj-C both need to see this.
                                                    destination:T_DEV_INTERNAL
                                                       callback:@selector(CALLBACK_halfLine)];
     [[self Timers] addTimer:timer];
+    
+    sharedJaguar = self;
     
     return self;
 }
@@ -136,16 +138,25 @@ Boolean frame_is_complete;
 /* Musashi support. Here be C. */
 int cpu_irq_ack(int level)
 {
-    return 0; // TODO
+    // The only IRQ line hooked up is IRQ 2, connecting TOM's interrupt out pin to the CPU.
+    if(level == 2)
+    {
+        return 64; // TODO
+    }
+    else
+    {
+        printf("Illegal IRQ line asserted: %d", level);
+        return 0x0;
+    }
 }
 
 /* Reset callback. */
 void cpu_pulse_reset(void)
 {
-    [[[JaguarSystem sharedJaguar] Tom] reset];
+    [[sharedJaguar Tom] reset];
     
     // OP debugging. Swap endianness of OLP.
-    [[[JaguarSystem sharedJaguar] Tom] registers]->OLP = (0x1DC0 << 16) | 0x0002;
+    //[[[JaguarSystem sharedJaguar] Tom] registers]->OLP = (0x1DC0 << 16) | 0x0002;
 }
 
 /* Called before each instruction, if configured so. */
@@ -155,6 +166,9 @@ void cpu_instr_callback(void)
     {
         m68k_modify_timeslice(0); // end this timeslice immediately
     }
+    
+    // If VI == VC, set the IRQ bit in INT1 and assert IRQ2.
+    [[sharedJaguar Tom] updateInterrupts];
 }
 
 uint8_t fc;

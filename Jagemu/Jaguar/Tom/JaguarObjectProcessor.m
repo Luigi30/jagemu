@@ -46,37 +46,43 @@
     do
     {
         // Convert the object list into objects.
-        JaguarOPObject *obj = [self parseOPObject:memory.WorkRAM+object_list_current];
         
+        if(object_list_current == 0x4610)
+        {
+            
+        }
         printf("OP: Parsing object at %06X\n", object_list_current);
+        JaguarOPObject *obj = [self parseOPObject:memory.WorkRAM+object_list_current];
         
         switch(obj.object_type)
         {
             case JAGOP_STOP:
                 new_object_list_ptr = [self performStopObject:(JaguarOPObjectStop *)obj
                                                     currentOP:object_list_current];
+                object_list_current = new_object_list_ptr;
                 break;
             case JAGOP_BRANCH:
                 new_object_list_ptr = [self performBranchObject:(JaguarOPObjectBranch *)obj
                                                       currentOP:object_list_current];
+                object_list_current = new_object_list_ptr;
                 break;
             case JAGOP_GPU:
                 new_object_list_ptr = [self performGPUObject:(JaguarOPObjectGPU *)obj
                                                    currentOP:object_list_current];
+                object_list_current = new_object_list_ptr << 3;
                 break;
             case JAGOP_SCALED:
                 new_object_list_ptr = [self performScaledObject:(JaguarOPObjectScaled *)obj
                                                       currentOP:object_list_current];
+                object_list_current = new_object_list_ptr << 3;
                 break;
             case JAGOP_BITMAP:
                 new_object_list_ptr = [self performBitmapObject:(JaguarOPObjectBitmap *)obj
                                                       currentOP:object_list_current];
+                object_list_current = new_object_list_ptr << 3;
                 break;
         }
         
-        
-        uint32_t olp = [MathHelper swapWordsOfLong:(new_object_list_ptr)];
-        object_list_current = (olp & 0xF) | (new_object_list_ptr << 3);
     }
     while(object_list_current != 0);
     
@@ -329,7 +335,7 @@
         memcpy(memory.WorkRAM+current, &phrase, 8);
     }
     
-    return (op_object.link);
+    return op_object.link;
 }
 
 -(uint32_t)performScaledObject:(JaguarOPObjectScaled *)op_object currentOP:(uint32_t)current
@@ -355,8 +361,8 @@
     printf("TODO: fire GPU interrupt\n");
     
     // advance to next object
-    _registers->OLP = _registers->OLP + 8;
-    return _registers->OLP >> 3;
+    current = current + 8;
+    return current; // next phrase
 }
 -(uint32_t)performBranchObject:(JaguarOPObjectBranch *)op_object currentOP:(uint32_t)current
 {
@@ -408,8 +414,8 @@
         return 0; // terminate processing
     }
     
-    _registers->OLP = _registers->OLP + 8;
-    return _registers->OLP >> 3; // next phrase
+    current = current + 8;
+    return current; // next phrase
 }
 
 -(uint32_t)performStopObject:(JaguarOPObjectStop *)op_object currentOP:(uint32_t)current

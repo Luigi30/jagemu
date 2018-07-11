@@ -25,10 +25,12 @@ class DebuggerMaster : NSObject {
     static let shared = DebuggerMaster()
     
     var CPUDebugWindowController: Debugger68KWindowController
+    var OPDebugWindowController: DebuggerOPWindowController
     
     override private init() {
         CPUDebugWindowController = Debugger68KWindowController(windowNibName: NSNib.Name(rawValue: "Debugger68KWindowController"))
-
+        OPDebugWindowController = DebuggerOPWindowController(windowNibName: NSNib.Name(rawValue: "DebuggerOPWindowController"))
+        
         super.init()
     }
     

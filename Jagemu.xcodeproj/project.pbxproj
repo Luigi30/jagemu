@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A1210D320F5CED000E66341 /* DebuggerOPWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1210D120F5CED000E66341 /* DebuggerOPWindowController.swift */; };
+		2A1210D420F5CED000E66341 /* DebuggerOPWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A1210D220F5CED000E66341 /* DebuggerOPWindowController.xib */; };
 		2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E5620E36EE200F77151 /* AppDelegate.swift */; };
 		2A203E5920E36EE400F77151 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A203E5820E36EE400F77151 /* Assets.xcassets */; };
 		2A203E5C20E36EE400F77151 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A203E5A20E36EE400F77151 /* MainMenu.xib */; };
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		2A0FE2C420EB199700CBDC40 /* cry2rgb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cry2rgb.h; sourceTree = "<group>"; };
+		2A1210D120F5CED000E66341 /* DebuggerOPWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggerOPWindowController.swift; sourceTree = "<group>"; };
+		2A1210D220F5CED000E66341 /* DebuggerOPWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DebuggerOPWindowController.xib; sourceTree = "<group>"; };
 		2A203E5320E36EE200F77151 /* Jagemu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jagemu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A203E5620E36EE200F77151 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2A203E5820E36EE400F77151 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -213,6 +217,8 @@
 			children = (
 				2AE651E520E81E4000380482 /* Debugger68KWindowController.swift */,
 				2AE651E420E81E4000380482 /* Debugger68KWindowController.xib */,
+				2A1210D120F5CED000E66341 /* DebuggerOPWindowController.swift */,
+				2A1210D220F5CED000E66341 /* DebuggerOPWindowController.xib */,
 				2AE651E120E81E1200380482 /* JaguarScreenView.swift */,
 				2AE651EA20E8213E00380482 /* JaguarWindow.swift */,
 				2AE651EC20E85CD600380482 /* JaguarScreen.h */,
@@ -293,6 +299,7 @@
 				2A203E5920E36EE400F77151 /* Assets.xcassets in Resources */,
 				2AE651E620E81E4000380482 /* Debugger68KWindowController.xib in Resources */,
 				2A203E5C20E36EE400F77151 /* MainMenu.xib in Resources */,
+				2A1210D420F5CED000E66341 /* DebuggerOPWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +334,7 @@
 				2ADF7C8220E465CF00F242A9 /* JaguarSystem.m in Sources */,
 				2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */,
 				2ADEA56120E74CDF005F453C /* JaguarTomRegisters.h in Sources */,
+				2A1210D320F5CED000E66341 /* DebuggerOPWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

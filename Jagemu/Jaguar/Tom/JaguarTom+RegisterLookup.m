@@ -152,7 +152,7 @@
             return _registers->BG;
             break;
         case 0xE0:
-            return _registers->INT1;
+            return _registers->INTERRUPTS_WAITING;
             break;
         case 0xE2:
             return _registers->INT2;
@@ -275,7 +275,18 @@
              _registers->BG = value;
             break;
         case 0xE0:
-             _registers->INT1 = value;
+            // Special: INT1
+            value = value & 0x1F1F;
+            if(value & 0x1F00)
+            {
+                // Clear interrupt waiting flags
+                _registers->INTERRUPTS_WAITING = (value & ~0x1F) & 0x1F;
+            }
+            else
+            {
+                // Set interrupt enabled flags
+                _registers->INTERRUPTS_ENABLED = value & 0x1F;
+            }
             break;
         case 0xE2:
              _registers->INT2 = value;

@@ -43,6 +43,8 @@ extern const NSUInteger LBUF_bytesPerRow;
 -(UInt16)getVideoOverscanWidth;
 -(uint16_t)videoModePixelWidth;
 
+-(void)updateInterrupts;
+
 /* rendering functions */
 -(void)renderLineCRY16:(uint32_t *)lineBuffer;
 

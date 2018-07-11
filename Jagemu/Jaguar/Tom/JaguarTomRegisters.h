@@ -79,8 +79,11 @@ struct tom_registers_t {
     uint16_t    BG;
     
     /* $F000E0... */
-    uint16_t    INT1;
-    uint16_t    INT2;
+    //uint16_t    INT1; // MMIO
+    uint16_t    INT2; // MMIO
+    
+    uint16_t    INTERRUPTS_WAITING; // INT1 reads
+    uint16_t    INTERRUPTS_ENABLED; // INT1 writes
     
     /* $F00400-$F007FE */
     uint16_t    CLUT[512];

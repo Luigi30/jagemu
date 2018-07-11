@@ -251,4 +251,24 @@ uint32_t MIX16ToBGR32[0x10000];
     
 }
 
+/* Interrupts */
+-(void)updateInterrupts
+{
+    //VBLANK interrupt
+    if(_registers->VI == _registers->VC)
+    {
+        // C_VIDENA is bit 0
+        _registers->INTERRUPTS_WAITING = _registers->INTERRUPTS_WAITING | 0x1;
+    }
+    
+    if(_registers->INTERRUPTS_WAITING > 0)
+    {
+        m68k_set_irq(M68K_IRQ_2);
+    }
+    else
+    {
+        m68k_set_irq(M68K_IRQ_NONE);
+    }
+}
+
 @end
