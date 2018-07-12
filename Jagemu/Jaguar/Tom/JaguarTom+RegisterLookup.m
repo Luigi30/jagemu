@@ -10,9 +10,34 @@
 
 @implementation JaguarTom (RegisterLookup)
 
+-(uint32_t)getClutLongByOffset:(uint32_t)offset
+{
+    printf("Unimplemented: getClutLongByOffset\n");
+    return 0x0;
+}
+
 -(uint16_t)getClutWordByOffset:(uint32_t)offset
 {
-    return _registers->CLUT[offset];
+    return _registers->CLUT[offset >> 1];
+}
+
+-(uint8_t)getClutByteByOffset:(uint32_t)offset
+{
+    // TODO: check these addresses
+    if(offset & 0x01)
+    {
+        return _registers->CLUT[(offset & 0xFFFE) >> 1] & 0x00FF;
+    }
+    else
+    {
+        return _registers->CLUT[(offset & 0xFFFE) >> 1] & 0xFF00;
+    }
+}
+
+// Write a long to the CLUT - writes affect CLUT A and CLUT B.
+-(void)putClutLongByOffset:(uint32_t)offset value:(uint32_t)value
+{
+    printf("Unimplemented: putClutLongByOffset\n");
 }
 
 // Write a word to the CLUT - writes affect CLUT A and CLUT B.
@@ -22,6 +47,26 @@
     _registers->CLUT[(offset >> 1) & 0xEFF] = value;
     _registers->CLUT[(offset >> 1) | 0x100] = value;
 }
+
+// Write a byte to the CLUT - writes affect CLUT A and CLUT B.
+-(void)putClutByteByOffset:(uint32_t)offset value:(uint8_t)value
+{
+    // TODO: unaligned writes
+    if(offset & 0x01)
+    {
+        // Write the low byte.
+        uint16_t word = offset & 0xFE;
+        _registers->CLUT[(word >> 1) & 0xEFF] = (_registers->CLUT[(word >> 1) & 0xEFF] & 0xFF00) | value;
+        _registers->CLUT[(word >> 1) | 0x100] = (_registers->CLUT[(word >> 1) | 0x100] & 0xFF00) | value;
+    }
+    else
+    {
+        // Write the high byte.
+        _registers->CLUT[(offset >> 1) & 0xEFF] = (_registers->CLUT[(offset >> 1) & 0xEFF] & 0x00FF) | (value << 8);
+        _registers->CLUT[(offset >> 1) | 0x100] = (_registers->CLUT[(offset >> 1) | 0x100] & 0x00FF) | (value << 8);
+    }
+}
+
 
 /* Register functions */
 -(uint32_t)getRegisterLongByOffset:(uint32_t)address

@@ -1,12 +1,103 @@
 //
-//  cry2rgb.h
+//  JaguarTom+Render.m
 //  Jagemu
 //
-//  Created by Kate on 7/2/18.
+//  Created by Kate on 7/11/18.
 //  Copyright © 2018 Luigi Thirty. All rights reserved.
 //
-#ifndef cry2rgb_h
-#define cry2rgb_h
+
+#import "JaguarSystem.h"
+#import "JaguarTom+Render.h"
+
+@implementation JaguarTom (Render)
+
+#define HCLK_VISIBLE_LEFT (208 - 16 - 4)
+#define HCLK_VISIBLE_RIGHT (HCLK_VISIBLE_LEFT + (320 * 4))
+#define PWIDTH (((_registers->VMODE & 0x0E00) >> 9) + 1)
+
+// Color conversion tables from VJ 2.1
+uint32_t RGB16ToRGB32[0x10000];
+uint32_t CRY16ToRGB32[0x10000];
+uint32_t MIX16ToRGB32[0x10000];
+
+uint32_t RGB16ToBGR32[0x10000];
+uint32_t CRY16ToBGR32[0x10000];
+uint32_t MIX16ToBGR32[0x10000];
+
+// Straight from VJ 2.1. This isn't endian-safe.
+-(void)fillColorLookupTables
+{
+    // NOTE: Jaguar 16-bit (non-CRY) color is RBG 556 like so:
+    //       RRRR RBBB BBGG GGGG
+    for(uint32_t i=0; i<0x10000; i++)
+        RGB16ToRGB32[i] = 0x000000FF
+        | ((i & 0xF800) << 16)                    // Red
+        | ((i & 0x003F) << 18)                    // Green
+        | ((i & 0x07C0) << 5);                    // Blue
+    
+    for(uint32_t i=0; i<0x10000; i++)
+    {
+        uint32_t cyan = (i & 0xF000) >> 12,
+        red = (i & 0x0F00) >> 8,
+        intensity = (i & 0x00FF);
+        
+        uint32_t r = (((uint32_t)redcv[cyan][red]) * intensity) >> 8,
+        g = (((uint32_t)greencv[cyan][red]) * intensity) >> 8,
+        b = (((uint32_t)bluecv[cyan][red]) * intensity) >> 8;
+        
+        CRY16ToRGB32[i] = 0x000000FF | (r << 24) | (g << 16) | (b << 8);
+        MIX16ToRGB32[i] = (i & 0x01 ? RGB16ToRGB32[i] : CRY16ToRGB32[i]);
+        
+        CRY16ToBGR32[i] = 0x000000FF | (r << 8) | (g << 16) | (b << 24);
+    }
+}
+
+-(uint16_t)videoModePixelWidth
+{
+    return (HCLK_VISIBLE_RIGHT - HCLK_VISIBLE_LEFT) / PWIDTH;
+}
+
+-(void)renderLineCRY16:(uint32_t *)lineBuffer
+{
+    // Render the line buffer to the proper line in our MTLTexture.
+    
+    // Find which scanline we're at in the visible area.
+    const uint16_t current_line = _registers->VC;
+    const uint16_t visible_halfline_start = _registers->VDB;
+    const uint16_t visible_area_scanline = (current_line - visible_halfline_start) / 2;
+    
+    // Calculate the starting pixel we're rendering at using HDB1 and PWIDTH.
+    const uint16_t left_render_start = _registers->HDB1 / PWIDTH;
+    const uint16_t visible_width = [self videoModePixelWidth] - left_render_start;
+    
+    JaguarScreen *screen = [[JaguarSystem sharedJaguar] Texture];
+    id<MTLTexture> texture = [screen Texture];
+    
+    // Convert the line buffer from CRY16 to RGB32 (Metal's texture format)
+    uint16_t *wordLineBuffer = (uint16_t *)lineBuffer;
+    uint32_t rgb_buffer[LINE_BUFFER_WORD_WIDTH];
+    for(int i=0;i<LINE_BUFFER_WORD_WIDTH;i++)
+    {
+        if(wordLineBuffer[i] != 0x0000)
+        {
+            uint8_t red     = (redcv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8] / 255.0) * (wordLineBuffer[i] & 0xFF);
+            uint8_t green   = (greencv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8] / 255.0) * (wordLineBuffer[i] & 0xFF);
+            uint8_t blue    = (bluecv[(wordLineBuffer[i] & 0xF000) >> 12][(wordLineBuffer[i] & 0xF00) >> 8] / 255.0) * (wordLineBuffer[i] & 0xFF);
+            rgb_buffer[i] = red | green << 8 | blue << 16 | 0xFF000000;
+        }
+        else
+        {
+            rgb_buffer[i] = 0xFF000000;
+        }
+        
+    }
+    const uint8_t *ptr_line_buffer_render_start = (uint8_t *)(rgb_buffer + left_render_start);
+    
+    MTLRegion region = MTLRegionMake2D(left_render_start, visible_area_scanline, visible_width, 1);
+    [texture replaceRegion:region mipmapLevel:0 withBytes:ptr_line_buffer_render_start bytesPerRow:LBUF_bytesPerRow];
+}
+
+@end
 
 //
 // Red Color Values for CrY<->RGB Color Conversion
@@ -79,5 +170,3 @@ uint8_t bluecv[16][16] = {
     {  34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 19, 0},    // E
     {  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0}     // F
 };
-
-#endif /* cry2rgb_h */

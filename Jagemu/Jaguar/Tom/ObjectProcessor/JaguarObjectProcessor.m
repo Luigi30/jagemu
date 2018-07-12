@@ -9,6 +9,7 @@
 #import "JaguarObjectProcessor.h"
 #import "JaguarTomRegisters.h"
 #import "JaguarSystem.h"
+#import "JaguarTom+Render.h"
 
 @implementation JaguarObjectProcessor
 

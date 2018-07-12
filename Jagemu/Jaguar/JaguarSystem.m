@@ -281,6 +281,8 @@ void cpu_write_byte(unsigned int address, unsigned int value)
     /* TOM */
     else if(address >= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFF)];
+    else if(address >= 0xF00400 && address < 0xF00800)
+        [[JaguarSystem.sharedJaguar Tom] putClutByteByOffset:(address - 0xF00400) value:(value & 0xFF)];
 }
 
 void cpu_write_word(unsigned int address, unsigned int value)
@@ -319,6 +321,8 @@ void cpu_write_long(unsigned int address, unsigned int value)
     /* TOM */
     else if(address >= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value)];
+    else if(address >= 0xF00400 && address < 0xF00800)
+        [[JaguarSystem.sharedJaguar Tom] putClutLongByOffset:(address - 0xF00400) value:(value)];
 }
 /*
  * To simulate real 68k behavior, first write the high word to

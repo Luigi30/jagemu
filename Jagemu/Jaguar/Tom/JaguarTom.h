@@ -35,17 +35,10 @@ extern const NSUInteger LBUF_bytesPerRow;
 // Reset Tom, the OP, the Blitter, and all Tom registers to their defaults.
 -(void)reset;
 
-// Fill the lookup tables for CRY-RGB and RGB-RGB32 conversion.
--(void)fillColorLookupTables;
-
 -(void)executeHalfLine;
 
 -(UInt16)getVideoOverscanWidth;
--(uint16_t)videoModePixelWidth;
 
 -(void)updateInterrupts;
-
-/* rendering functions */
--(void)renderLineCRY16:(uint32_t *)lineBuffer;
 
 @end
