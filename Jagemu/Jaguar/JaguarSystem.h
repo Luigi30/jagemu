@@ -82,5 +82,7 @@ extern void cpu_write_word(unsigned int address, unsigned int value);
 extern void cpu_write_long(unsigned int address, unsigned int value);
 extern void cpu_write_long_pd(unsigned int address, unsigned int value);
 
-// Debug: Wrote to ROM.
+// Debug functions
+void unmapped_read_notify(unsigned int address);
+void unmapped_write_notify(unsigned int address, unsigned int value);
 void wrote_to_rom(unsigned int address, unsigned int value);

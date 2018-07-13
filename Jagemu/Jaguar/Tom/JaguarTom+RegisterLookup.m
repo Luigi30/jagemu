@@ -10,6 +10,8 @@
 
 @implementation JaguarTom (RegisterLookup)
 
+// TODO: the CLUT being a uint16 is dumb, change it to a uint8 so we get free unaligned writes and all that
+
 -(uint32_t)getClutLongByOffset:(uint32_t)offset
 {
     printf("Unimplemented: getClutLongByOffset\n");

@@ -177,6 +177,8 @@ void cpu_set_fc(unsigned int fcv)
     fc = fcv;
 }
 
+// TODO: turn the memory functions into an address map list and generate it automatically?
+
 /* Musashi memory functions */
 /* CPU reads */
 unsigned int cpu_read_byte(unsigned int address)
@@ -189,7 +191,12 @@ unsigned int cpu_read_byte(unsigned int address)
         return [JaguarSystem.sharedJaguar Memory].CartROM[address - 0x800000];
     else if(address >= 0xE00000 && address < 0xE20000)
         return [JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000];
-    else return 0;
+
+    else
+    {
+        unmapped_read_notify(address);
+        return 0;
+    }
 }
 
 unsigned int cpu_read_word(unsigned int address)
@@ -206,7 +213,12 @@ unsigned int cpu_read_word(unsigned int address)
         return ([[JaguarSystem.sharedJaguar Tom] getRegisterWordByOffset:(address - 0xF00000)]);
     else if(address >= 0xF00400 && address < 0xF00800)
         return ([[JaguarSystem.sharedJaguar Tom] getClutWordByOffset:(address - 0xF00000)]);
-    else return 0;
+    
+    else
+    {
+        unmapped_read_notify(address);
+        return 0;
+    }
 }
 
 unsigned int cpu_read_long(unsigned int address)
@@ -226,7 +238,14 @@ unsigned int cpu_read_long(unsigned int address)
         ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+1] << 16) |
         ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+2] << 8) |
         ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+3]);
-    else return 0;
+    
+    // TODO: long TOM reads
+    
+    else
+    {
+        unmapped_read_notify(address);
+        return 0;
+    }
 }
 
 unsigned int cpu_read_word_dasm(unsigned int address)
@@ -243,7 +262,11 @@ unsigned int cpu_read_word_dasm(unsigned int address)
         return ([[JaguarSystem.sharedJaguar Tom] getRegisterWordByOffset:(address - 0xF00000)]);
     else if(address >= 0xF00400 && address < 0xF00800)
         return ([[JaguarSystem.sharedJaguar Tom] getClutWordByOffset:(address - 0xF00000)]);
-    else return 0;
+    else
+    {
+        unmapped_read_notify(address);
+        return 0;
+    }
 }
 
 unsigned int cpu_read_long_dasm(unsigned int address)
@@ -263,7 +286,11 @@ unsigned int cpu_read_long_dasm(unsigned int address)
         ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+1] << 16) |
         ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+2] << 8) |
         ([JaguarSystem.sharedJaguar Memory].BootROM[address - 0xE00000+3]);
-    else return 0;
+    else
+    {
+        unmapped_read_notify(address);
+        return 0;
+    }
 }
 
 /* CPU writes */
@@ -283,6 +310,9 @@ void cpu_write_byte(unsigned int address, unsigned int value)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFF)];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutByteByOffset:(address - 0xF00400) value:(value & 0xFF)];
+    
+    else
+        unmapped_write_notify(address, value);
 }
 
 void cpu_write_word(unsigned int address, unsigned int value)
@@ -302,6 +332,9 @@ void cpu_write_word(unsigned int address, unsigned int value)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFFFF)];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutWordByOffset:(address - 0xF00400) value:(value & 0xFFFF)];
+    
+    else
+        unmapped_write_notify(address, value);
 }
 
 void cpu_write_long(unsigned int address, unsigned int value)
@@ -323,6 +356,9 @@ void cpu_write_long(unsigned int address, unsigned int value)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value)];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutLongByOffset:(address - 0xF00400) value:(value)];
+    
+    else
+        unmapped_write_notify(address, value);
 }
 /*
  * To simulate real 68k behavior, first write the high word to
@@ -345,10 +381,26 @@ void cpu_write_long_pd(unsigned int address, unsigned int value)
     /* TODO: TOM */
     else if(address <= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value)];
+    
+    else
+        unmapped_write_notify(address, value);
 }
 
 void wrote_to_rom(unsigned int address, unsigned int value)
 {
     printf("Attempted write to ROM at %06X\n", address);
 }
+
+void unmapped_read_notify(unsigned int address)
+{
+    printf("Unmapped read from %06X: %0X\n", address);
+}
+
+
+void unmapped_write_notify(unsigned int address, unsigned int value)
+{
+    printf("Unmapped write to %06X: %0X\n", address, value);
+}
+
+
 
