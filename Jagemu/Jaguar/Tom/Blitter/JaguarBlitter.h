@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+struct blitter_registers_t;
+
 @interface JaguarBlitter : NSObject
+{
+    struct blitter_registers_t *_registers;
+}
+
+@property struct blitter_registers_t *registers;
+
+-(instancetype)init;
 
 @end

@@ -15,6 +15,7 @@
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
 
+#import "JaguarBlitter.h"
 #import "JaguarTomRegisters.h"
 #import "JaguarObjectProcessor.h"
 
@@ -25,10 +26,13 @@ extern const NSUInteger LBUF_bytesPerRow;
     @public
     struct tom_registers_t *_registers;
     JaguarObjectProcessor *_objectProcessor;
+    JaguarBlitter *_blitter;
 }
 
 @property struct tom_registers_t *registers;
+
 @property JaguarObjectProcessor *objectProcessor;
+@property JaguarBlitter *blitter;
 
 -(instancetype)init;
 

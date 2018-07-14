@@ -23,6 +23,7 @@ const NSUInteger LBUF_bytesPerRow = LBUF_bytesPerPixel * 320;
     self = [super init];
     self.registers = malloc(sizeof(struct tom_registers_t));
     self.objectProcessor = [[JaguarObjectProcessor alloc] init:self.registers];
+    self.blitter = [[JaguarBlitter alloc] init];
     self.registers->LBUF_ACTIVE = self.registers->LBUF_A;
 
     [self fillColorLookupTables];

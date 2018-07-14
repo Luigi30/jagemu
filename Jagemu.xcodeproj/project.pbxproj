@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A03F8B520F9B65B00B2609F /* JaguarBlitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03F8B420F9B65B00B2609F /* JaguarBlitter.m */; };
+		2A03F8B820F9C2D400B2609F /* JaguarBlitter+Registers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03F8B720F9C2D400B2609F /* JaguarBlitter+Registers.m */; };
 		2A1210D320F5CED000E66341 /* DebuggerOPWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1210D120F5CED000E66341 /* DebuggerOPWindowController.swift */; };
 		2A1210D420F5CED000E66341 /* DebuggerOPWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A1210D220F5CED000E66341 /* DebuggerOPWindowController.xib */; };
 		2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E5620E36EE200F77151 /* AppDelegate.swift */; };
@@ -43,6 +44,8 @@
 /* Begin PBXFileReference section */
 		2A03F8B320F9B65B00B2609F /* JaguarBlitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarBlitter.h; sourceTree = "<group>"; };
 		2A03F8B420F9B65B00B2609F /* JaguarBlitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarBlitter.m; sourceTree = "<group>"; };
+		2A03F8B620F9C2D400B2609F /* JaguarBlitter+Registers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JaguarBlitter+Registers.h"; sourceTree = "<group>"; };
+		2A03F8B720F9C2D400B2609F /* JaguarBlitter+Registers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JaguarBlitter+Registers.m"; sourceTree = "<group>"; };
 		2A1210D120F5CED000E66341 /* DebuggerOPWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggerOPWindowController.swift; sourceTree = "<group>"; };
 		2A1210D220F5CED000E66341 /* DebuggerOPWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DebuggerOPWindowController.xib; sourceTree = "<group>"; };
 		2A203E5320E36EE200F77151 /* Jagemu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jagemu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +114,8 @@
 			children = (
 				2A03F8B320F9B65B00B2609F /* JaguarBlitter.h */,
 				2A03F8B420F9B65B00B2609F /* JaguarBlitter.m */,
+				2A03F8B620F9C2D400B2609F /* JaguarBlitter+Registers.h */,
+				2A03F8B720F9C2D400B2609F /* JaguarBlitter+Registers.m */,
 			);
 			path = Blitter;
 			sourceTree = "<group>";
@@ -208,6 +213,7 @@
 		2A57FF6720E4949B00E8A68E /* Tom */ = {
 			isa = PBXGroup;
 			children = (
+				2A03F8B220F9B64000B2609F /* Blitter */,
 				2A43548C20F6D13D00AEDCB1 /* ObjectProcessor */,
 				2ADF7C7D20E462EB00F242A9 /* JaguarTom.h */,
 				2ADF7C7E20E462EB00F242A9 /* JaguarTom.m */,
@@ -223,7 +229,6 @@
 		2ADF7C7C20E462D600F242A9 /* Jaguar */ = {
 			isa = PBXGroup;
 			children = (
-				2A03F8B220F9B64000B2609F /* Blitter */,
 				2A3D44E620E96B1A00291CCD /* Synchronization */,
 				2ADEA55B20E600E7005F453C /* DebuggerMaster.swift */,
 				2A57FF6720E4949B00E8A68E /* Tom */,
@@ -353,6 +358,7 @@
 				2AE651E720E81E4000380482 /* Debugger68KWindowController.swift in Sources */,
 				2AEF8DC820F06AA7005FC83C /* JaguarTom+RegisterLookup.m in Sources */,
 				2A47E89120F1964400036128 /* MathHelper.m in Sources */,
+				2A03F8B820F9C2D400B2609F /* JaguarBlitter+Registers.m in Sources */,
 				2A43548B20F6CFF100AEDCB1 /* JaguarTom+Render.m in Sources */,
 				2A203E8220E373B600F77151 /* m68kops.c in Sources */,
 				2AEF8DC520EC2482005FC83C /* JaguarOPObject.m in Sources */,
