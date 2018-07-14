@@ -15,7 +15,7 @@
 -(uint16_t)getRegisterWordByOffset:(uint32_t)address;
 -(uint8_t)getRegisterByteByOffset:(uint32_t)address;
 
--(void)putRegisterAtOffset:(uint32_t)address value:(uint32_t)value;
+-(void)putRegisterAtOffset:(uint32_t)address value:(uint32_t)value size:(int)size;
 
 -(uint8_t)getClutByteByOffset:(uint32_t)offset;
 -(uint16_t)getClutWordByOffset:(uint32_t)offset;

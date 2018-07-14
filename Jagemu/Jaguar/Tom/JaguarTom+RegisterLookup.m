@@ -209,134 +209,170 @@
     }
 }
 
--(void)putRegisterAtOffset:(uint32_t)address value:(uint32_t)value
+-(void)putRegisterAtOffset:(uint32_t)address value:(uint32_t)value size:(int)size
 {
-    switch(address)
+    uint16_t register_offset = 0;
+    uint32_t write_value = 0;
+    
+    if(size == 4)
+    {
+        // Break into two word writes to handle adjacent registers.
+        // Unaligned writes should fail with a bus error.
+        [self putRegisterAtOffset:address+0 value:(value & 0xFFFF0000)>>16 size:2];
+        [self putRegisterAtOffset:address+2 value:(value & 0x0000FFFF) size:2];
+    }
+    if(size == 2)
+    {
+        register_offset = address;
+        write_value = value;
+    }
+    else if(size == 1)
+    {
+        if(address & 0x01)
+        {
+            // Unaligned: Get the high byte from the current register value and update the low byte.
+            register_offset = address & 0xFE;
+            write_value = ([self getRegisterAtOffset:register_offset] & 0xFF00) | (value & 0xFF);
+        }
+        else
+        {
+            // Aligned: Get the low byte from the current register value and update the high byte.
+            register_offset = address;
+            write_value = (value << 8) | ([self getRegisterAtOffset:address] & 0x00FF);
+        }
+    }
+    
+    switch(register_offset)
     {
         case 0x0:
-            _registers->MEMCON1 = value;
+            _registers->MEMCON1 = write_value;
             break;
         case 0x2:
-             _registers->MEMCON2 = value;
+             _registers->MEMCON2 = write_value;
             break;
         case 0x4:
-             _registers->HC = value;
+             _registers->HC = write_value;
             break;
         case 0x6:
-             _registers->VC = value;
+             _registers->VC = write_value;
             break;
         case 0x8:
-             _registers->LPH = value;
+             _registers->LPH = write_value;
             break;
         case 0xA:
-             _registers->LPV = value;
+             _registers->LPV = write_value;
             break;
         case 0x10:
-            _registers->OB0 = value;
+            _registers->OB0 = write_value;
             break;
         case 0x12:
-             _registers->OB1 = value;
+            _registers->OB1 = write_value;
             break;
         case 0x14:
-             _registers->OB2 = value;
+            _registers->OB2 = write_value;
             break;
         case 0x16:
-             _registers->OB3 = value;
+            _registers->OB3 = write_value;
             break;
         case 0x20:
-             _registers->OLP = value;
+            // High word of OLP
+            _registers->OLP = (write_value << 16) | (_registers->OLP & 0x0000FFFF);
+            break;
+        case 0x22:
+            // Low word of OLP
+            _registers->OLP = (_registers->OLP & 0xFFFF0000) | write_value;
             break;
         case 0x26:
-             _registers->OBF = value;
+            _registers->OBF = write_value;
             break;
         case 0x28:
-             _registers->VMODE = value;
+            _registers->VMODE = write_value;
             break;
         case 0x2A:
-             _registers->BORD1 = value;
+             _registers->BORD1 = write_value;
             break;
         case 0x2C:
-             _registers->BORD2 = value;
+             _registers->BORD2 = write_value;
             break;
         case 0x2E:
-             _registers->HP = value;
+             _registers->HP = write_value;
             break;
         case 0x30:
-             _registers->HBB = value;
+             _registers->HBB = write_value;
             break;
         case 0x32:
-             _registers->HBE = value;
+             _registers->HBE = write_value;
             break;
         case 0x34:
-             _registers->HS = value;
+             _registers->HS = write_value;
             break;
         case 0x36:
-             _registers->HVS = value;
+             _registers->HVS = write_value;
             break;
         case 0x38:
-             _registers->HDB1 = value;
+             _registers->HDB1 = write_value;
             break;
         case 0x3A:
-             _registers->HDB2 = value;
+             _registers->HDB2 = write_value;
             break;
         case 0x3C:
-             _registers->HDE = value;
+             _registers->HDE = write_value;
             break;
         case 0x3E:
-             _registers->VP = value;
+             _registers->VP = write_value;
             break;
         case 0x40:
-             _registers->VBB = value;
+             _registers->VBB = write_value;
             break;
         case 0x42:
-             _registers->VBE = value;
+             _registers->VBE = write_value;
             break;
         case 0x44:
-             _registers->VS = value;
+             _registers->VS = write_value;
             break;
         case 0x46:
-             _registers->VDB = value;
+             _registers->VDB = write_value;
             break;
         case 0x48:
-             _registers->VDE = value;
+             _registers->VDE = write_value;
             break;
         case 0x4A:
-             _registers->VEB = value;
+             _registers->VEB = write_value;
             break;
         case 0x4C:
-             _registers->VEE = value;
+             _registers->VEE = write_value;
             break;
         case 0x4E:
-             _registers->VI = value;
+             _registers->VI = write_value;
             break;
         case 0x50:
-             _registers->PIT0 = value;
+             _registers->PIT0 = write_value;
             break;
         case 0x52:
-             _registers->PIT1 = value;
+             _registers->PIT1 = write_value;
             break;
         case 0x54:
-             _registers->HEQ = value;
+             _registers->HEQ = write_value;
             break;
         case 0x58:
-             _registers->BG = value;
+             _registers->BG = write_value;
             break;
         case 0xE0:
             // Special: INT1
-            value = value & 0x1F1F;
-            if(value & 0x1F00)
+            write_value = write_value & 0x1F1F;
+            if(write_value & 0x1F00)
             {
                 // Clear interrupt waiting flags
-                _registers->INTERRUPTS_WAITING = (value & ~0x1F) & 0x1F;
+                _registers->INTERRUPTS_WAITING = (write_value & ~0x1F) & 0x1F;
             }
             else
             {
                 // Set interrupt enabled flags
-                _registers->INTERRUPTS_ENABLED = value & 0x1F;
+                _registers->INTERRUPTS_ENABLED = write_value & 0x1F;
             }
             break;
         case 0xE2:
-             _registers->INT2 = value;
+             _registers->INT2 = write_value;
             break;
         default:
             break;

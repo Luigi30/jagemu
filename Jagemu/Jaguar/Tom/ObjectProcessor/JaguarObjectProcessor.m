@@ -374,7 +374,7 @@
         //YPOS == VC or YPOS == 0x7FF
         if(op_object.ypos == vc || op_object.ypos == 0x7FF)
         {
-            return op_object.link;
+            return op_object.link << 3;
         }
     }
     else if(op_object.cc == OP_YPOS_GT_VC)
@@ -382,7 +382,7 @@
         //YPOS > VC
         if(op_object.ypos > vc)
         {
-            return op_object.link;
+            return op_object.link << 3;
         }
     }
     else if(op_object.cc == OP_YPOS_LT_VC)
@@ -390,7 +390,7 @@
         //YPOS < VC
         if(op_object.ypos < vc)
         {
-            return op_object.link;
+            return op_object.link << 3;
         }
     }
     else if(op_object.cc == OP_FLAG_IS_SET)
@@ -398,7 +398,7 @@
         //Object Processor flag is set
         if(_registers->OBF & 0x1)
         {
-            return op_object.link;
+            return op_object.link << 3;
         }
     }
     else if(op_object.cc == OP_SECOND_HALF_OF_SCANLINE)
@@ -406,7 +406,7 @@
         // Second half of scanline (HC.10 = 1)
         if(_registers->HC & 0x400)
         {
-            return op_object.link;
+            return op_object.link << 3;
         }
     }
     else

@@ -41,7 +41,7 @@
     // Jaguar Server files are TOS .PRG files.
     if(((rom[0] << 8) | rom[1]) != TOSPRG_HEADER)
     {
-        printf("Not a TOS PRG file\n");
+        NSLog(@"%@ is not a TOS PRG file\n", path);
         return;
     }
     
@@ -49,7 +49,7 @@
     uint32_t header = (rom[0x1F] << 24) | (rom[0x1E] << 16) | (rom[0x1D] << 8) | (rom[0x1C] << 0);
     if(header != ('J' | 'A' << 8 | 'G' << 16 | 'R' << 24))
     {
-        printf("Not a Jaguar Server executable\n");
+        NSLog(@"%@ is not a Jaguar Server executable\n", path);
         return;
     }
     
@@ -58,7 +58,7 @@
     //uint32_t program_length = rom[0x29] << 0 | rom[0x28] << 8 | rom[0x27] << 16 | rom[0x26] << 24;
     uint32_t entry_point = rom[0x2D] << 0 | rom[0x2C] << 8 | rom[0x2B] << 16 | rom[0x2A] << 24;
     
-    memcpy(_WorkRAM+download_address, rom+0x2E, length-46);
+    memcpy(_WorkRAM+download_address, rom+0x2E, length-46); // drop the 46-byte header
     m68k_set_reg(M68K_REG_PC, entry_point);
 }
 

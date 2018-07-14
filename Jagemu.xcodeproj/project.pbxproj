@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A03F8B520F9B65B00B2609F /* JaguarBlitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A03F8B420F9B65B00B2609F /* JaguarBlitter.m */; };
 		2A1210D320F5CED000E66341 /* DebuggerOPWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1210D120F5CED000E66341 /* DebuggerOPWindowController.swift */; };
 		2A1210D420F5CED000E66341 /* DebuggerOPWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A1210D220F5CED000E66341 /* DebuggerOPWindowController.xib */; };
 		2A203E5720E36EE200F77151 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A203E5620E36EE200F77151 /* AppDelegate.swift */; };
@@ -40,6 +41,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A03F8B320F9B65B00B2609F /* JaguarBlitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JaguarBlitter.h; sourceTree = "<group>"; };
+		2A03F8B420F9B65B00B2609F /* JaguarBlitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JaguarBlitter.m; sourceTree = "<group>"; };
 		2A1210D120F5CED000E66341 /* DebuggerOPWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggerOPWindowController.swift; sourceTree = "<group>"; };
 		2A1210D220F5CED000E66341 /* DebuggerOPWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DebuggerOPWindowController.xib; sourceTree = "<group>"; };
 		2A203E5320E36EE200F77151 /* Jagemu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jagemu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +106,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A03F8B220F9B64000B2609F /* Blitter */ = {
+			isa = PBXGroup;
+			children = (
+				2A03F8B320F9B65B00B2609F /* JaguarBlitter.h */,
+				2A03F8B420F9B65B00B2609F /* JaguarBlitter.m */,
+			);
+			path = Blitter;
+			sourceTree = "<group>";
+		};
 		2A203E4A20E36EE200F77151 = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +223,7 @@
 		2ADF7C7C20E462D600F242A9 /* Jaguar */ = {
 			isa = PBXGroup;
 			children = (
+				2A03F8B220F9B64000B2609F /* Blitter */,
 				2A3D44E620E96B1A00291CCD /* Synchronization */,
 				2ADEA55B20E600E7005F453C /* DebuggerMaster.swift */,
 				2A57FF6720E4949B00E8A68E /* Tom */,
@@ -329,6 +342,7 @@
 				2A203E7F20E373B600F77151 /* m68kcpu.c in Sources */,
 				2ADEA55F20E74AB0005F453C /* JaguarObjectProcessor.m in Sources */,
 				2ADF7C7F20E462EB00F242A9 /* JaguarTom.m in Sources */,
+				2A03F8B520F9B65B00B2609F /* JaguarBlitter.m in Sources */,
 				2AE651EE20E85CD600380482 /* JaguarScreen.m in Sources */,
 				2A203E8120E373B600F77151 /* m68kopdm.c in Sources */,
 				2A3C7C8D20F16ABD00798D8B /* Debugger68KConsole.swift in Sources */,
