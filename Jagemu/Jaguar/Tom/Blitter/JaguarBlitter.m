@@ -16,8 +16,7 @@
 -(instancetype)init
 {
     self = [super init];
-    _registers = malloc(sizeof(struct blitter_registers_t));
-    
+    _registers = malloc(sizeof(struct blitter_registers_t));    
     return self;
 }
 

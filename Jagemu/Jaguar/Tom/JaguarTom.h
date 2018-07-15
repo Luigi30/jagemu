@@ -16,6 +16,7 @@
 #import <Metal/Metal.h>
 
 #import "JaguarBlitter.h"
+#import "JaguarBlitter+Registers.h"
 #import "JaguarTomRegisters.h"
 #import "JaguarObjectProcessor.h"
 

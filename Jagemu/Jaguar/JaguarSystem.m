@@ -195,6 +195,8 @@ unsigned int cpu_read_byte(unsigned int address)
     // TODO: hook up TOM reads and verify these work
     else if(address >= 0xF00000 && address < 0xF00100)
         return [[JaguarSystem.sharedJaguar Tom] getRegisterByteByOffset:(address - 0xF00000)];
+    else if(address >= 0xF00200 && address < 0xF00300)
+        return [[[JaguarSystem.sharedJaguar Tom] blitter] getRegisterAtOffset:(address - 0xF00200) width:1];
     else if(address >= 0xF00400 && address < 0xF00800)
         return [[JaguarSystem.sharedJaguar Tom] getClutByteByOffset:(address - 0xF00400)];
     
@@ -245,7 +247,9 @@ void cpu_write_byte(unsigned int address, unsigned int value)
     
     /* TOM */
     else if(address >= 0xF00000 && address < 0xF00100)
-        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFF) size:1];
+        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFF) width:1];
+    else if(address >= 0xF00200 && address < 0xF00300)
+        [[[JaguarSystem.sharedJaguar Tom] blitter] putRegisterAtOffset:(address - 0xF00200) value:(value & 0xFF) width:1];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutByteByOffset:(address - 0xF00400) value:(value & 0xFF)];
     
@@ -271,7 +275,9 @@ void cpu_write_long(unsigned int address, unsigned int value)
     
     //TODO: this doesn't work
     else if(address >= 0xF00000 && address < 0xF00100)
-        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value) size:4];
+        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value) width:4];
+    else if(address >= 0xF00200 && address < 0xF00300)
+        [[[JaguarSystem.sharedJaguar Tom] blitter] putRegisterAtOffset:(address - 0xF00200) value:(value & 0xFFFFFFFF) width:4];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutLongByOffset:(address - 0xF00400) value:(value)];
     
@@ -294,7 +300,7 @@ void cpu_write_long_pd(unsigned int address, unsigned int value)
     
     //TODO: simulate 68k behavior
     else if(address >= 0xF00000 && address < 0xF00100)
-        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value) size:4];
+        [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value) width:4];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutLongByOffset:(address - 0xF00400) value:(value)];
     

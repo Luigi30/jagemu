@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AddressMap.h"
 
 struct blitter_registers_t;
 

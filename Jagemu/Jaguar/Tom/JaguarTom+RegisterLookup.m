@@ -209,7 +209,7 @@
     }
 }
 
--(void)putRegisterAtOffset:(uint32_t)address value:(uint32_t)value size:(int)size
+-(void)putRegisterAtOffset:(uint32_t)address value:(uint32_t)value width:(int)size
 {
     uint16_t register_offset = 0;
     uint32_t write_value = 0;
@@ -218,8 +218,8 @@
     {
         // Break into two word writes to handle adjacent registers.
         // Unaligned writes should fail with a bus error.
-        [self putRegisterAtOffset:address+0 value:(value & 0xFFFF0000)>>16 size:2];
-        [self putRegisterAtOffset:address+2 value:(value & 0x0000FFFF) size:2];
+        [self putRegisterAtOffset:address+0 value:(value & 0xFFFF0000)>>16 width:2];
+        [self putRegisterAtOffset:address+2 value:(value & 0x0000FFFF) width:2];
     }
     if(size == 2)
     {

@@ -9,7 +9,6 @@
 #import "JaguarBlitter.h"
 
 // Blitter register block starts at $F02200.
-// Each register is 32 bits with the block containing contiguous addresses.
 struct blitter_registers_t {
     
     // Address registers - 32-bit
@@ -44,5 +43,8 @@ struct blitter_registers_t {
 };
 
 @interface JaguarBlitter (Registers)
+
+-(uint32_t)getRegisterAtOffset:(uint8_t)offset width:(int)width;
+-(void)putRegisterAtOffset:(uint8_t)offset value:(uint64_t)value width:(int)width;
 
 @end
