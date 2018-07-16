@@ -28,6 +28,9 @@ struct blitter_registers_t {
     uint32_t A2_PIXEL;  // $F02230
     uint32_t A2_STEP;   // $F02234
     
+    uint32_t B_CMD;     // $F02238
+    uint32_t B_COUNT;   // $F0223C
+    
     // Data registers - mostly 64-bit
     uint64_t B_SRCD;    // $F02240
     uint64_t B_DSTD;    // $F02248

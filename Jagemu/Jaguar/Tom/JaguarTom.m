@@ -70,6 +70,8 @@ const NSUInteger LBUF_bytesPerRow = LBUF_bytesPerPixel * 320;
         
         // Run the object processor for a half-line.
         [[self objectProcessor] executeHalfLine];
+        
+        //[[self blitter] performCycles:<#(uint32_t)#>]
     }
     
     //printf("\n");

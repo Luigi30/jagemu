@@ -7,6 +7,7 @@
 //
 
 #import "JaguarBlitter+Registers.h"
+#import "JaguarSystem.h"
 
 @implementation JaguarBlitter (Registers)
 
@@ -128,6 +129,13 @@
         case 0x34:
             _registers->A2_STEP     = write_value & 0xFFFFFFFF;
             break;
+        case 0x38:
+            _registers->B_CMD       = write_value & 0xFFFFFFFF;
+            [[[JaguarSystem sharedJaguar] blitter] triggerBlitterActivation];
+            break;
+        case 0x3C:
+            _registers->B_COUNT     = write_value & 0xFFFFFFFF;
+            break;
             
         // Data registers. Set up reads every 32 bits as an optimization.
         case 0x40:
@@ -228,6 +236,12 @@
             break;
         case 0x34:
             read_value = _registers->A2_STEP;
+            break;
+        case 0x38:
+            read_value = [self buildBCMDRead];
+            break;
+        case 0x3C:
+            read_value = _registers->B_COUNT;
             break;
             
         // Data registers. Set up reads every 32 bits as an optimization.

@@ -167,8 +167,14 @@ void cpu_instr_callback(void)
         m68k_modify_timeslice(0); // end this timeslice immediately
     }
     
-    // If VI == VC, set the IRQ bit in INT1 and assert IRQ2.
+    // Tom needs to update its interrupt flags.
     [[sharedJaguar Tom] updateInterrupts];
+    
+    // Perform a blit if required.
+    if([[[sharedJaguar Tom] blitter] current_state] == BLITTER_WILL_ACTIVATE_AFTER_THIS_INSTRUCTION)
+    {
+        [[[sharedJaguar Tom] blitter] performBlit];
+    }
 }
 
 uint8_t fc;
