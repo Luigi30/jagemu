@@ -30,6 +30,7 @@ enum blitter_state_t {
 @property enum blitter_state_t current_status;
 @property uint32_t cycles_remaining;
 @property struct blitter_a1_flags_t a1_flags;
+@property struct blitter_a2_flags_t a2_flags;
 
 -(instancetype)init;
 

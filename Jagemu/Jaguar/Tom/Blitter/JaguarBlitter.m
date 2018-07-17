@@ -25,6 +25,7 @@ bool blitter_instant = true;
 {
     self = [super init];
     _registers = malloc(sizeof(struct blitter_registers_t));
+    _internal_state = malloc(sizeof(struct blitter_registers_t));
     current_status = BLITTER_IS_IDLE;
     return self;
 }
@@ -112,6 +113,7 @@ bool blitter_instant = true;
     uint16_t a1_fraction_increment_y = (_registers->A1_FINC & 0xFFFF0000) >> 16;
     
     // Fill in the A2 parameters.
+    [self populateA2Flags:&_a2_flags];
     
     // 16-bit unsigned
     uint16_t a2_pixel_x = _registers->A2_PIXEL & 0x7FFF;
@@ -125,10 +127,21 @@ bool blitter_instant = true;
     uint16_t inner_loop_iterations = (_registers->B_COUNT & 0x0000FFFF);
     uint16_t outer_loop_iterations = (_registers->B_COUNT & 0xFFFF0000) >> 16;
     
-    // Blitter ignores low 3 bits of base addresses
-    _internal_state->A1_BASE = _registers->A1_BASE & 0xFFFFFFF8;
-    _internal_state->A2_BASE = _registers->A2_BASE & 0xFFFFFFF8;
+    uint32_t aligned_a1_base = _registers->A1_BASE & 0xFFFFFFF8;
+    uint32_t aligned_a2_base = _registers->A2_BASE & 0xFFFFFFF8;
     
+    NSLog(@"Blit size is %d x %d loop iterations", inner_loop_iterations, outer_loop_iterations);
+    NSLog(@"Blit is $%06X -> $%06X", aligned_a1_base, aligned_a2_base);
+    
+    for(int outer_loops=0; outer_loops<outer_loop_iterations; outer_loops++)
+    {
+        //Perform a blitter outer loop
+        
+        for(int inner_loops=0; inner_loops<inner_loop_iterations; inner_loops++)
+        {
+            // Perform a blitter inner loop
+        }
+    }
     
 }
 

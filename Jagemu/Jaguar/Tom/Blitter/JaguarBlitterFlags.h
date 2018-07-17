@@ -60,4 +60,17 @@ struct blitter_a1_flags_t
     Boolean y_sign_sub;
 };
 
+struct blitter_a2_flags_t
+{
+    enum blitter_pitch_t pitch;
+    enum blitter_pixel_size_t pixel_size;
+    enum blitter_z_offset_t z_offset;
+    uint16_t window_width;
+    Boolean mask;
+    enum blitter_x_add_t x_add_ctrl;
+    enum blitter_y_add_t y_add_ctrl;
+    Boolean x_sign_sub;
+    Boolean y_sign_sub;
+};
+
 #endif /* JaguarBlitterFlags_h */

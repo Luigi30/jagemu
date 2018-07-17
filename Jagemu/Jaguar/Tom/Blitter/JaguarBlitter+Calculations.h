@@ -11,6 +11,8 @@
 @interface JaguarBlitter (Calculations)
 
 -(void)populateA1Flags:(struct blitter_a1_flags_t *)flags;
+-(void)populateA2Flags:(struct blitter_a2_flags_t *)flags;
+
 -(uint32_t)getWindowWidth:(uint8_t)fp_value;
 
 @end

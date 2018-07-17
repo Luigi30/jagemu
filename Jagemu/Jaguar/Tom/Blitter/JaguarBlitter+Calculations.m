@@ -88,4 +88,17 @@ static uint32_t WINDOW_WIDTH_TABLE[] = {
     flags->y_sign_sub = (_registers->A1_FLAGS = 0x100000) >> 20;
 }
 
+-(void)populateA2Flags:(struct blitter_a2_flags_t *)flags
+{
+    flags->window_width = [self getWindowWidth:(_registers->A2_FLAGS & 0x5E00) >> 9];
+    flags->pitch = (_registers->A2_FLAGS & 0x03);
+    flags->pixel_size = (_registers->A2_FLAGS & 0x38) >> 3;
+    flags->z_offset = (_registers->A2_FLAGS & 0x1C8) >> 6;
+    flags->mask = (_registers->A2_FLAGS & (1 << 15)) >> 15;
+    flags->x_add_ctrl = (_registers->A2_FLAGS = 0x30000) >> 16;
+    flags->y_add_ctrl = (_registers->A2_FLAGS = 0x40000) >> 18;
+    flags->x_sign_sub = (_registers->A2_FLAGS = 0x80000) >> 19;
+    flags->y_sign_sub = (_registers->A2_FLAGS = 0x100000) >> 20;
+}
+
 @end
