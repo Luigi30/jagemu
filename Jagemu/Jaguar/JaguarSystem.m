@@ -171,7 +171,7 @@ void cpu_instr_callback(void)
     [[sharedJaguar Tom] updateInterrupts];
     
     // Perform a blit if required.
-    if([[[sharedJaguar Tom] blitter] current_state] == BLITTER_WILL_ACTIVATE_AFTER_THIS_INSTRUCTION)
+    if([[[sharedJaguar Tom] blitter] current_status] == BLITTER_WILL_ACTIVATE_AFTER_THIS_INSTRUCTION)
     {
         [[[sharedJaguar Tom] blitter] performBlit];
     }
@@ -201,10 +201,10 @@ unsigned int cpu_read_byte(unsigned int address)
     // TODO: hook up TOM reads and verify these work
     else if(address >= 0xF00000 && address < 0xF00100)
         return [[JaguarSystem.sharedJaguar Tom] getRegisterByteByOffset:(address - 0xF00000)];
-    else if(address >= 0xF00200 && address < 0xF00300)
-        return [[[JaguarSystem.sharedJaguar Tom] blitter] getRegisterAtOffset:(address - 0xF00200) width:1];
     else if(address >= 0xF00400 && address < 0xF00800)
         return [[JaguarSystem.sharedJaguar Tom] getClutByteByOffset:(address - 0xF00400)];
+    else if(address >= 0xF02200 && address < 0xF02300)
+        return [[[JaguarSystem.sharedJaguar Tom] blitter] getRegisterAtOffset:(address - 0xF02200) width:1];
     
     else
     {
@@ -254,10 +254,10 @@ void cpu_write_byte(unsigned int address, unsigned int value)
     /* TOM */
     else if(address >= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value & 0xFF) width:1];
-    else if(address >= 0xF00200 && address < 0xF00300)
-        [[[JaguarSystem.sharedJaguar Tom] blitter] putRegisterAtOffset:(address - 0xF00200) value:(value & 0xFF) width:1];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutByteByOffset:(address - 0xF00400) value:(value & 0xFF)];
+    else if(address >= 0xF02200 && address < 0xF02300)
+        [[[JaguarSystem.sharedJaguar Tom] blitter] putRegisterAtOffset:(address - 0xF02200) value:(value & 0xFF) width:1];
     
     else
         unmapped_write_notify(address, value);
@@ -282,10 +282,10 @@ void cpu_write_long(unsigned int address, unsigned int value)
     //TODO: this doesn't work
     else if(address >= 0xF00000 && address < 0xF00100)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value) width:4];
-    else if(address >= 0xF00200 && address < 0xF00300)
-        [[[JaguarSystem.sharedJaguar Tom] blitter] putRegisterAtOffset:(address - 0xF00200) value:(value & 0xFFFFFFFF) width:4];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutLongByOffset:(address - 0xF00400) value:(value)];
+    else if(address >= 0xF02200 && address < 0xF02300)
+        [[[JaguarSystem.sharedJaguar Tom] blitter] putRegisterAtOffset:(address - 0xF02200) value:(value & 0xFFFFFFFF) width:4];
     
     else
         unmapped_write_notify(address, value);
@@ -309,6 +309,8 @@ void cpu_write_long_pd(unsigned int address, unsigned int value)
         [[JaguarSystem.sharedJaguar Tom] putRegisterAtOffset:(address - 0xF00000) value:(value) width:4];
     else if(address >= 0xF00400 && address < 0xF00800)
         [[JaguarSystem.sharedJaguar Tom] putClutLongByOffset:(address - 0xF00400) value:(value)];
+    else if(address >= 0xF02200 && address < 0xF02300)
+        return [[[JaguarSystem.sharedJaguar Tom] blitter] putRegisterAtOffset:(address - 0xF02200) value:value width:1];
     
     else
         unmapped_write_notify(address, value);

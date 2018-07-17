@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AddressMap.h"
+#import "JaguarBlitterFlags.h"
 
 struct blitter_registers_t;
 
@@ -25,14 +26,16 @@ enum blitter_state_t {
 }
 
 @property struct blitter_registers_t *registers;
-@property enum blitter_state_t current_state;
+@property struct blitter_registers_t *internal_state;
+@property enum blitter_state_t current_status;
 @property uint32_t cycles_remaining;
+@property struct blitter_a1_flags_t a1_flags;
 
 -(instancetype)init;
 
 -(uint32_t)buildBCMDRead;
 -(void)triggerBlitterActivation;
-//-(void)performCycles:(uint32_t)cycles;
 -(void)performBlit;
+-(void)doInstantBlit;
 
 @end

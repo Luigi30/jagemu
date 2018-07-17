@@ -131,7 +131,7 @@
             break;
         case 0x38:
             _registers->B_CMD       = write_value & 0xFFFFFFFF;
-            [[[JaguarSystem sharedJaguar] blitter] triggerBlitterActivation];
+            [[[[JaguarSystem sharedJaguar] Tom] blitter] triggerBlitterActivation];
             break;
         case 0x3C:
             _registers->B_COUNT     = write_value & 0xFFFFFFFF;
